@@ -1,26 +1,26 @@
 [
   {
     "id": 1,
-    "name": "테스트 상담사 1",
-    "image": "https://via.placeholder.com/300",
-    "description": "사주, 타로 전문 상담사 1",
-    "jobTitle": "사주 전문가",
-    "org": "테스트 상담센터"
+    "name": "서아",
+    "image": "https://mazzum.s3.ap-northeast-2.amazonaws.com/uploads/2025/06/16/y9v0yxFXMnXBxRnNp8hc.jpeg",
+    "description": "신점 전문 상담사 1",
+    "jobTitle": "신점 전문가",
+    "org": "맞점"
   },
   {
     "id": 2,
-    "name": "테스트 상담사 2",
-    "image": "https://via.placeholder.com/300",
-    "description": "사주, 타로 전문 상담사 2",
-    "jobTitle": "타로 전문가",
-    "org": "테스트 상담센터"
+    "name": "보은신녀",
+    "image": "https://mazzum.s3.ap-northeast-2.amazonaws.com/uploads/2025/06/17/QvMparqpfDY1xY8n4Cpe.jpeg",
+    "description": "신점 전문 상담사 2",
+    "jobTitle": "신점 전문가",
+    "org": "맞점"
   },
   {
     "id": 3,
-    "name": "테스트 상담사 3",
-    "image": "https://via.placeholder.com/300",
-    "description": "사주, 타로 전문 상담사 3",
-    "jobTitle": "상담 전문가",
-    "org": "테스트 상담센터"
+    "name": "아진",
+    "image": "https://mazzum.s3.ap-northeast-2.amazonaws.com/uploads/2025/01/02/rhtvExXMft0QG0JpKGns.jpeg",
+    "description": "타로 전문 상담사 3",
+    "jobTitle": "타로 전문가",
+    "org": "맞점"
   }
 ]
