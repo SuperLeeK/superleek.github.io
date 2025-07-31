@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "name": "테스트 상담사 1",
+    "image": "https://via.placeholder.com/300",
+    "description": "사주, 타로 전문 상담사 1",
+    "jobTitle": "사주 전문가",
+    "org": "테스트 상담센터"
+  },
+  {
+    "id": 2,
+    "name": "테스트 상담사 2",
+    "image": "https://via.placeholder.com/300",
+    "description": "사주, 타로 전문 상담사 2",
+    "jobTitle": "타로 전문가",
+    "org": "테스트 상담센터"
+  },
+  {
+    "id": 3,
+    "name": "테스트 상담사 3",
+    "image": "https://via.placeholder.com/300",
+    "description": "사주, 타로 전문 상담사 3",
+    "jobTitle": "상담 전문가",
+    "org": "테스트 상담센터"
+  }
+]
