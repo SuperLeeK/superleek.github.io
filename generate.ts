@@ -127,6 +127,8 @@ const convertToHtml = async (counselor: ICounselorInfo) => {
     <title>${counselor.seo.title}</title>
     <link rel="canonical" href="https://superleek.github.io/detail-${counselor.id}.html" />
     <meta name="og:description" content="${counselor.seo.description}" />
+    <meta property="og:image" content="${counselor.typeD?.uri}" />
+    <meta property="og:image:alt" content="${counselor.nickname}" />
     <!-- JSON-LD Schema.org -->
     <script type="application/ld+json">
       {
