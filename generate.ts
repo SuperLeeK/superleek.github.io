@@ -64,7 +64,7 @@ const CounselingCategoryLabel = {
 
 async function fetchCounselorReview(counselorId: number) {
   try {
-    const response = await axios.get<Pagination<IReview>>(`https://api.mazzum.kr:3010/review`, {
+    const response = await axios.get<Pagination<IReview>>(`${process.env.API_URL}/review`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -90,7 +90,7 @@ async function fetchCounselors() {
     const counselorIds = JSON.parse(fs.readFileSync("./counselorIds.json", "utf-8"));
 
     const response = await axios.get<Pagination<ICounselorInfo>>(
-      "https://api.mazzum.kr:3010/counselor",
+      `${process.env.API_URL}/counselor`,
       {
         headers: {
           "Content-Type": "application/json",
