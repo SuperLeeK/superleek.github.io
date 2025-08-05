@@ -10,13 +10,17 @@
     "deploy": "git add . && git commit -m 'deploy' && git push && npm run indexnow",
     "lint:html": "htmlhint *.html --ignore naverac3438ea019848729c2f162481140b3a.html",
     "lint:html:fix": "htmlhint *.html --format=json > htmlhint-report.json",
-    "lint": "npm run lint:html"
+    "lint": "npm run lint:html",
+    "format": "prettier --write *.html *.js *.json *.md",
+    "format:check": "prettier --check *.html *.js *.json *.md",
+    "format:html": "prettier --write *.html"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "htmlhint": "^1.6.3"
+    "htmlhint": "^1.6.3",
+    "prettier": "^3.6.2"
   }
 }
