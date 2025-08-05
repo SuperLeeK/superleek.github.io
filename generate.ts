@@ -64,7 +64,7 @@ const CounselingCategoryLabel = {
 
 async function fetchCounselorReview(counselorId: number) {
   try {
-    const response = await axios.get<Pagination<IReview>>(`${process.env.API_URL}/review`, {
+    const response = await axios.get<Pagination<IReview>>(`https://api.mazzum.kr:3010/review`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -90,7 +90,7 @@ async function fetchCounselors() {
     const counselorIds = JSON.parse(fs.readFileSync("./counselorIds.json", "utf-8"));
 
     const response = await axios.get<Pagination<ICounselorInfo>>(
-      `${process.env.API_URL}/counselor`,
+      `https://api.mazzum.kr:3010/counselor`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -421,5 +421,5 @@ async function main() {
 main()
   .catch(console.error)
   .finally(() => {
-    console.log("✅ 상담사 상세 페이지 생성 완료!");
+console.log("✅ 상담사 상세 페이지 생성 완료!");
   });
