@@ -1,8 +1,8 @@
 {
-  "name": "naver-schema-test",
-  "version": "1.0.0",
+  "name": "mazzum-counselor-list",
+  "version": "1.0.1",
   "description": "",
-  "main": "generate.js",
+  "main": "index.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "indexnow": "node indexNow.js",
