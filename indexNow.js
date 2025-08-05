@@ -6,7 +6,7 @@ const config = {
   key: "b69d2da5f922b5482dbdb63fd4c5b9aa",
   keyLocation: "https://superleek.github.io/b69d2da5f922b5482dbdb63fd4c5b9aa.txt",
   urlList: [
-    "https://superleek.github.io/",
+    "https://superleek.github.io",
     "https://superleek.github.io/index.html",
     "https://superleek.github.io/counselor-list.html",
     "https://superleek.github.io/detail-1.html",
