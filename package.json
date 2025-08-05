@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "indexnow": "node indexNow.js",
-    "submit": "node indexNow.js"
+    "submit": "node indexNow.js",
+    "deploy": "git add . && git commit -m 'deploy' && git push && npm run indexnow"
   },
   "keywords": [],
   "author": "",
