@@ -1,7 +1,15 @@
 import fs from "fs";
 import path from "path";
 import axios from "axios";
-import { CounselingCategory } from "./enums/index";
+import { createHTTP2Adapter } from "axios-http2-adapter";
+
+enum CounselingCategory {
+  Saju = "Saju",
+  Tarot = "Tarot",
+  Sinjum = "Sinjum",
+}
+
+axios.defaults.adapter = createHTTP2Adapter({ force: true });
 
 const safeParseInt = (value: string | number, defaultValue: number = 0) => {
   return isNaN(+value) ? defaultValue : parseInt(value as string, 10);
@@ -27,6 +35,9 @@ interface ICounselorInfo {
   introduction: string;
   counselingCategory: CounselingCategory;
   typeD: { uri: string } | null;
+  rate: number;
+  reviewCount: number;
+  favoriteCount: number;
   seo: {
     title: string;
     description: string;
@@ -34,12 +45,53 @@ interface ICounselorInfo {
   };
 }
 
+export interface IReview {
+  id: number;
+  title: string;
+  content: string;
+  rate: number;
+}
+
 const [argPage, argSize] = [...process.argv].reverse();
 const page = safeParseInt(argPage, 1);
 const size = safeParseInt(argSize, 300);
 
+const CounselingCategoryLabel = {
+  [CounselingCategory.Saju]: '사주',
+  [CounselingCategory.Tarot]: '타로',
+  [CounselingCategory.Sinjum]: '신점',
+};
+
+async function fetchCounselorReview(counselorId: number) {
+  try {
+    const response = await axios.get<Pagination<IReview>>(
+      `https://api.mazzum.kr:3010/review`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          responseType: "application/json",
+          "User-Agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+        },
+        params: {
+          page: 1,
+          size: 3,
+          counselorId,
+        },
+      }
+    );
+    return response.data.data;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 async function fetchCounselors() {
   try {
+    // counselorIds.json에서 상담사 번호 목록 읽기
+    const counselorIds = JSON.parse(fs.readFileSync("./counselorIds.json", "utf-8"));
+    
     const response = await axios.get<Pagination<ICounselorInfo>>(
       "https://api.mazzum.kr:3010/counselor",
       {
@@ -54,7 +106,7 @@ async function fetchCounselors() {
           page,
           size,
           seo: true,
-          ids: [178, 415, 244, 488, 382]?.join(","),
+          ids: counselorIds?.join(","),
         },
       }
     );
@@ -64,54 +116,214 @@ async function fetchCounselors() {
   }
 }
 
-console.log('ho');
+const convertToHtml = async (counselor: ICounselorInfo) => {
+  const reviews = await fetchCounselorReview(counselor.id);
+  const html = `
+  <!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>${counselor.seo.title}</title>
+    <link rel="canonical" href="https://superleek.github.io/detail-${counselor.id}.html" />
+    <meta name="og:description" content="${counselor.seo.description}" />
+    <!-- JSON-LD Schema.org -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "${counselor.nickname}",
+        "image": "${counselor.typeD?.uri}",
+        "description": "${counselor.seo.description}",
+        "url": "https://superleek.github.io/detail-${counselor.id}.html",
+        "jobTitle": "${CounselingCategoryLabel[counselor.counselingCategory]}",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "맞점"
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "${counselor.rate.toFixed(2)}",
+          "bestRating": "5",
+          "reviewCount": "${counselor.reviewCount}",
+          "ratingCount": "${counselor.favoriteCount}"
+        }
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://superleek.github.io/counselor-list.html",
+              "name": "상담사목록"
+            }
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "item": {
+              "@id": "https://superleek.github.io/detail-${counselor.id}.html",
+              "name": "${counselor.nickname}"
+            }
+          }
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [${reviews?.map(review => {
+          return `
+          {
+            "@type": "Question",
+            "name": "${review.title}",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "${review.content}"
+            }
+          }
+          `;
+        })}]
+      }
+    </script>
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "review": [${reviews?.map(review => {
+          return `
+          {
+            "@type": "Review",
+            "reviewBody": "${review.content}",
+            "reviewRating": {
+              "@type": "Rating",
+              "bestRating": "5",
+              "ratingValue": "${review.rate}"
+            }
+          },
+          `;
+        })}]
+      }
+    </script>
+  </head>
+  <body>
+    <h1>${counselor.nickname}</h1>
+    <img
+      src="${counselor.typeD?.uri}"
+      alt="${counselor.nickname}"
+      width="400"
+    />
+    <h4>${counselor.introduction}</h4>
+    <p>상담타입: ${CounselingCategoryLabel[counselor.counselingCategory]}</p>
+    <a href="counselor-list.html">← 목록으로</a>
+  </body>
+</html>
+  `;
+
+  fs.writeFileSync(path.join(`./detail-${counselor.id}.html`), html.trim());
+};
+
+const generateCounselorListPage = (counselors: ICounselorInfo[]) => {
+  // 상담타입별 분류
+  const groupedByCategory = counselors.reduce((acc, counselor) => {
+    const category = CounselingCategoryLabel[counselor.counselingCategory];
+    if (!acc[category]) acc[category] = [];
+    acc[category].push(counselor);
+    return acc;
+  }, {} as Record<string, ICounselorInfo[]>);
+
+  // 이름순 정렬
+  const sortedByName = [...counselors].sort((a, b) => a.nickname.localeCompare(b.nickname));
+
+  const html = `
+  <!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>상담사 목록</title>
+    <link rel="canonical" href="https://superleek.github.io/counselor-list.html" />
+    <meta name="description" content="상담사 목록" />
+    <meta name="og:description" content="상담사 목록" />
+    <meta name="og:title" content="상담사 목록" />
+    <meta name="og:type" content="website" />
+    <meta name="og:url" content="https://superleek.github.io/counselor-list.html" />
+    <meta name="og:image" content="/images/open-graph.png" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [${counselors.map((counselor, index) => `
+          {
+            "@type": "ListItem",
+            "position": ${index + 1},
+            "item": {
+              "@type": "Person",
+              "name": "${counselor.nickname}",
+              "image": "${counselor.typeD?.uri}",
+              "description": "${counselor.seo.description}",
+              "url": "https://superleek.github.io/detail-${counselor.id}.html",
+              "jobTitle": "${CounselingCategoryLabel[counselor.counselingCategory]}",
+              "worksFor": {
+                "@type": "Organization",
+                "name": "맞점"
+              }
+            }
+          }`).join(',')}]
+      }
+    </script>
+  </head>
+
+  <body>
+    <h1>상담사 목록</h1>
+    <ul>
+      ${counselors.map(counselor => `<li><a href="detail-${counselor.id}.html">${counselor.nickname}</a></li>`).join('\n      ')}
+    </ul>
+    
+    <h2>상담타입</h2>
+    ${Object.entries(groupedByCategory).map(([category, counselorList]) => `
+    <h3>${category}</h3>
+    <ul>
+      ${counselorList.map(counselor => `<li><a href="detail-${counselor.id}.html">${counselor.nickname}</a></li>`).join('\n      ')}
+    </ul>`).join('\n    ')}
+    
+    <h2>이름순서</h2>
+    <ul>
+      ${sortedByName.map(counselor => `<li><a href="detail-${counselor.id}.html">${counselor.nickname}</a></li>`).join('\n      ')}
+    </ul>
+  </body>
+</html>
+  `;
+
+  fs.writeFileSync(path.join(`./counselor-list.html`), html.trim());
+};
 
 async function main() {
   const counselors = await fetchCounselors();
-  console.log('counselors:', counselors);
+  if (!counselors?.length) return console.error("상담사 목록 조회 실패");
+  
+  // 상담사 상세 페이지 생성
+  counselors.forEach(counselor => {
+    convertToHtml(counselor);
+  });
+  
+  // 상담사 목록 페이지 생성
+  generateCounselorListPage(counselors);
 }
 
-main().catch(console.error);
-
-// const data = JSON.parse(fs.readFileSync("./data.json", "utf-8"));
-
-// data.forEach(item => {
-//   const html = `
-//   <!DOCTYPE html>
-//   <html lang="ko">
-//   <head>
-//     <meta charset="UTF-8" />
-//     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-//     <title>${item.name}</title>
-
-//     <!-- JSON-LD Schema.org -->
-//     <script type="application/ld+json">
-//     {
-//       "@context": "https://schema.org",
-//       "@type": "Person",
-//       "name": "${item.name}",
-//       "image": "${item.image}",
-//       "description": "${item.description}",
-//       "url": "https://username.github.io/naver-schema-test/detail-${item.id}.html",
-//       "jobTitle": "${item.jobTitle}",
-//       "worksFor": {
-//         "@type": "Organization",
-//         "name": "${item.org}"
-//       }
-//     }
-//     </script>
-//   </head>
-//   <body>
-//     <h1>${item.name}</h1>
-//     <img src="${item.image}" alt="${item.name}" width="200"/>
-//     <p>${item.description}</p>
-//     <p>직함: ${item.jobTitle}</p>
-//     <p>소속: ${item.org}</p>
-//     <a href="index.html">← 목록으로</a>
-//   </body>
-//   </html>
-//   `;
-//   fs.writeFileSync(path.join(__dirname, `detail-${item.id}.html`), html.trim());
-// });
-
-console.log("✅ 상담사 상세 페이지 생성 완료!");
+main().catch(console.error).finally(() => {
+  console.log("✅ 상담사 상세 페이지 생성 완료!");
+});
