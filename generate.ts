@@ -311,6 +311,34 @@ const generateCounselorListPage = (counselors: ICounselorInfo[]) => {
   fs.writeFileSync(path.join(`./counselor-list.html`), html.trim());
 };
 
+const generateSitemap = (counselors: ICounselorInfo[]) => {
+  const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD 형식
+  
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://superleek.github.io/</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>always</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://superleek.github.io/counselor-list.html</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.9</priority>
+  </url>
+${counselors.map(counselor => `  <url>
+    <loc>https://superleek.github.io/detail-${counselor.id}.html</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.8</priority>
+  </url>`).join('\n')}
+</urlset>`;
+
+  fs.writeFileSync(path.join(`./sitemap.xml`), xml);
+};
+
 async function main() {
   const counselors = await fetchCounselors();
   if (!counselors?.length) return console.error("상담사 목록 조회 실패");
@@ -322,6 +350,9 @@ async function main() {
   
   // 상담사 목록 페이지 생성
   generateCounselorListPage(counselors);
+  
+  // 사이트맵 생성
+  generateSitemap(counselors);
 }
 
 main().catch(console.error).finally(() => {
