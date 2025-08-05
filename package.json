@@ -7,10 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "indexnow": "node indexNow.js",
     "submit": "node indexNow.js",
-    "deploy": "git add . && git commit -m 'deploy' && git push && npm run indexnow"
+    "deploy": "git add . && git commit -m 'deploy' && git push && npm run indexnow",
+    "lint:html": "htmlhint *.html --ignore naverac3438ea019848729c2f162481140b3a.html",
+    "lint:html:fix": "htmlhint *.html --format=json > htmlhint-report.json",
+    "lint": "npm run lint:html"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs"
+  "type": "commonjs",
+  "devDependencies": {
+    "htmlhint": "^1.6.3"
+  }
 }
