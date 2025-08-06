@@ -4,13 +4,13 @@ javascript: (function () {
     'https://superleek.github.io',
     'https://superleek.github.io/counselor-list.html',
     'https://superleek.github.io/detail-280.html',
-		'https://superleek.github.io/detail-148.html',
 		'https://superleek.github.io/detail-452.html',
 		'https://superleek.github.io/detail-488.html',
 		'https://superleek.github.io/detail-318.html',
-		'https://superleek.github.io/detail-382.html',
+		'https://superleek.github.io/detail-148.html',
 		'https://superleek.github.io/detail-415.html',
 		'https://superleek.github.io/detail-178.html',
+		'https://superleek.github.io/detail-489.html',
 		'https://superleek.github.io/detail-492.html',
 		'https://superleek.github.io/detail-244.html'
   ].flat();

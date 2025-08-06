@@ -19,12 +19,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://superleek.github.io/detail-148.html</loc>
-    <lastmod>2025-08-06</lastmod>
-    <changefreq>always</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://superleek.github.io/detail-452.html</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>always</changefreq>
@@ -43,7 +37,7 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://superleek.github.io/detail-382.html</loc>
+    <loc>https://superleek.github.io/detail-148.html</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>always</changefreq>
     <priority>0.8</priority>
@@ -56,6 +50,12 @@
   </url>
   <url>
     <loc>https://superleek.github.io/detail-178.html</loc>
+    <lastmod>2025-08-06</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://superleek.github.io/detail-489.html</loc>
     <lastmod>2025-08-06</lastmod>
     <changefreq>always</changefreq>
     <priority>0.8</priority>

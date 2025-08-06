@@ -62,6 +62,17 @@ const CounselingCategoryLabel = {
   [CounselingCategory.Sinjum]: "신점",
 };
 
+// 한자 제거 함수
+const removeChineseCharacters = (nickname: string): string => {
+  // (한자), 한자, |한자| 등의 패턴을 제거
+  return nickname
+    .replace(/\([^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]+\)/g, '') // (한자) 패턴 제거
+    .replace(/\[[^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]+\]/g, '') // [한자] 패턴 제거
+    .replace(/\|[^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]+\|/g, '') // |한자| 패턴 제거
+    .replace(/[^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F\s]/g, '') // 한자 및 특수문자 제거 (한글, 공백만 남김)
+    .trim(); // 앞뒤 공백 제거
+};
+
 async function fetchCounselorReview(counselorId: number) {
   try {
     const response = await axios.get<Pagination<IReview>>(`https://api.mazzum.kr:3010/review`, {
@@ -180,7 +191,7 @@ const convertToHtml = async (counselor: ICounselorInfo) => {
             "position": 2,
             "item": {
               "@id": "https://superleek.github.io/detail-${counselor.id}.html",
-              "name": "${counselor.nickname}"
+              "name": "${removeChineseCharacters(counselor.nickname)}"
             }
           }
         ]
