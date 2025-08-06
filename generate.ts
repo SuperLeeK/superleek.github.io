@@ -134,6 +134,7 @@ const convertToHtml = async (counselor: ICounselorInfo) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>${counselor.seo.title}</title>
     <link rel="canonical" href="https://superleek.github.io/detail-${counselor.id}.html" />
+    <meta name="description" content="${counselor.seo.description}" />
     <meta name="og:description" content="${counselor.seo.description}" />
     <meta property="og:image" content="${counselor.typeD?.uri}" />
     <meta property="og:image:alt" content="${counselor.nickname}" />
@@ -243,7 +244,7 @@ const convertToHtml = async (counselor: ICounselorInfo) => {
       alt="${counselor.nickname}"
       width="400"
     />
-    <h4>${counselor.introduction}</h4>
+    <h4>${`<h4>${counselor.introduction}`}</h4>
     <p>상담타입: ${CounselingCategoryLabel[counselor.counselingCategory]}</p>
     <a href="counselor-list.html">← 목록으로</a>
   </body>
@@ -268,16 +269,6 @@ const generateCounselorListPage = (counselors: ICounselorInfo[]) => {
   // 이름순 정렬
   const sortedByName = [...counselors].sort((a, b) => a.nickname.localeCompare(b.nickname));
 
-  /* 
-  item: {
-    "description": "${counselor.seo.description}",
-    "jobTitle": "${CounselingCategoryLabel[counselor.counselingCategory]}",
-    "worksFor": {
-      "@type": "Organization",
-      "name": "맞점"
-    }
-  }
-  */
   const html = `
   <!doctype html>
 <html lang="ko">
@@ -493,10 +484,12 @@ const generateIndexPage = (counselors: ICounselorInfo[]) => {
           {
             "@type": "ListItem",
             "position": ${index + 1},
-            "@type": "Person",
-            "name": "${counselor.nickname}",
-            "image": "${counselor.typeD?.uri}",
-            "url": "https://superleek.github.io/detail-${counselor.id}.html",
+            "item": {
+              "@type": "Organization",
+              "name": "${counselor.nickname}",
+              "image": "${counselor.typeD?.uri}",
+              "url": "https://superleek.github.io/detail-${counselor.id}.html",
+            }
           }`
           )
           .join(",")}]
@@ -545,9 +538,7 @@ async function main() {
   generateCounselorListPage(counselors);
 
   // 상담사 상세 페이지 생성
-  counselors.forEach(counselor => {
-    convertToHtml(counselor);
-  });
+  counselors.forEach(convertToHtml);
   // 사이트맵 생성
   generateSitemap(counselors);
 
