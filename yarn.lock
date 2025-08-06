@@ -511,6 +511,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"mazzum-counselor-list@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "mazzum-counselor-list@workspace:."
+  dependencies:
+    "@types/node": "npm:^24.2.0"
+    axios: "npm:^1.11.0"
+    axios-http2-adapter: "npm:^1.0.3"
+    htmlhint: "npm:^1.6.3"
+    prettier: "npm:^3.6.2"
+    ts-node: "npm:^10.9.2"
+    typescript: "npm:^5.9.2"
+  languageName: unknown
+  linkType: soft
+
 "mime-db@npm:1.52.0":
   version: 1.52.0
   resolution: "mime-db@npm:1.52.0"
@@ -535,20 +549,6 @@ __metadata:
   checksum: 10c0/3defdfd230914f22a8da203747c42ee3c405c39d4d37ffda284dac5e45b7e1f6c49aa8be606509002898e73091ff2a3bbfc59c2c6c71d4660609f63aa92f98e3
   languageName: node
   linkType: hard
-
-"naver-schema-test@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "naver-schema-test@workspace:."
-  dependencies:
-    "@types/node": "npm:^24.2.0"
-    axios: "npm:^1.11.0"
-    axios-http2-adapter: "npm:^1.0.3"
-    htmlhint: "npm:^1.6.3"
-    prettier: "npm:^3.6.2"
-    ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.9.2"
-  languageName: unknown
-  linkType: soft
 
 "node-sarif-builder@npm:^3.2.0":
   version: 3.2.0

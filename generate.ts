@@ -126,6 +126,13 @@ const convertToHtml = async (counselor: ICounselorInfo) => {
     <meta name="og:description" content="${counselor.seo.description}" />
     <meta property="og:image" content="${counselor.typeD?.uri}" />
     <meta property="og:image:alt" content="${counselor.nickname}" />
+
+    <meta name="language" content="ko" />
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+
     <!-- JSON-LD Schema.org -->
     <script type="application/ld+json">
       {
@@ -165,7 +172,7 @@ const convertToHtml = async (counselor: ICounselorInfo) => {
             "position": 1,
             "item": {
               "@id": "https://superleek.github.io/counselor-list.html",
-              "name": "상담사목록"
+              "name": "상담사"
             }
           },
           {
@@ -250,6 +257,16 @@ const generateCounselorListPage = (counselors: ICounselorInfo[]) => {
   // 이름순 정렬
   const sortedByName = [...counselors].sort((a, b) => a.nickname.localeCompare(b.nickname));
 
+  /* 
+  item: {
+    "description": "${counselor.seo.description}",
+    "jobTitle": "${CounselingCategoryLabel[counselor.counselingCategory]}",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "맞점"
+    }
+  }
+  */
   const html = `
   <!doctype html>
 <html lang="ko">
@@ -258,12 +275,35 @@ const generateCounselorListPage = (counselors: ICounselorInfo[]) => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>상담사 목록</title>
     <link rel="canonical" href="https://superleek.github.io/counselor-list.html" />
-    <meta name="description" content="상담사 목록" />
-    <meta name="og:description" content="상담사 목록" />
+
+    <meta name="language" content="ko" />
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+
+    <meta name="description" content="연예인, 방송 업계 입소문난 곳! 재회, 금전, 직업운 전문, 전화타로, 전화신점, 전화운세, 전화사주, 채팅상담 가능" />
+    <meta name="og:description" content="연예인, 방송 업계 입소문난 곳! 재회, 금전, 직업운 전문, 전화타로, 전화신점, 전화운세, 전화사주, 채팅상담 가능" />
     <meta name="og:title" content="상담사 목록" />
     <meta name="og:type" content="website" />
     <meta name="og:url" content="https://superleek.github.io/counselor-list.html" />
     <meta name="og:image" content="/images/open-graph.png" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "item": {
+              "@id": "https://superleek.github.io/counselor-list.html",
+              "name": "상담사목록"
+            }
+          },
+        ]
+      }
+    </script>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -274,18 +314,10 @@ const generateCounselorListPage = (counselors: ICounselorInfo[]) => {
           {
             "@type": "ListItem",
             "position": ${index + 1},
-            "item": {
-              "@type": "Person",
-              "name": "${counselor.nickname}",
-              "image": "${counselor.typeD?.uri}",
-              "description": "${counselor.seo.description}",
-              "url": "https://superleek.github.io/detail-${counselor.id}.html",
-              "jobTitle": "${CounselingCategoryLabel[counselor.counselingCategory]}",
-              "worksFor": {
-                "@type": "Organization",
-                "name": "맞점"
-              }
-            }
+            "@type": "Person",
+            "name": "${counselor.nickname}",
+            "image": "${counselor.typeD?.uri}",
+            "url": "https://superleek.github.io/detail-${counselor.id}.html",
           }`
           )
           .join(",")}]
@@ -399,27 +431,121 @@ javascript: (function () {
   fs.writeFileSync(path.join(`./bookmarklet.js`), bookmarklet);
 };
 
+const generateIndexPage = (counselors: ICounselorInfo[]) => {
+  const html = `
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>맞점 | 귀신같이 딱 맞는 맞춤 점사</title>
+    <meta name="title" content="맞점 | 귀신같이 딱 맞는 맞춤 점사" />
+    <meta
+      name="description"
+      content="연예인, 방송 업계 입소문난 곳! 재회, 금전, 직업운 전문, 전화타로, 전화신점, 전화운세, 전화사주, 채팅상담 가능"
+    />
+    <meta
+      name="keyword"
+      content="맞점, 맛점, ㅁㅈ, 맞점후기, 맞점상담, 전화사주, 전화신점, 전화타로, 채팅사주, 채팅신점, 채팅타로, 사주, 운세, 궁합, 인연, 재회, 재회운, 금전운, 연애운, 결혼운, 애정운, 전화사주상담, 전화신점상담, 전화타로상담, 채팅사주상담, 채팅신점상담, 채팅타로상담"
+    />
+
+    <meta property="og:site_name" content="맞점 | 귀신같이 딱 맞는 맞춤 점사" />
+    <meta property="og:title" content="맞점 | 귀신같이 딱 맞는 맞춤 점사" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://superleek.github.io" />
+    <meta property="og:image" content="/images/open-graph.png" />
+    <meta property="og:image:alt" content="맞점 | 귀신같이 딱 맞는 맞춤 점사" />
+    <meta
+      property="og:description"
+      content="연예인, 방송 업계 입소문난 곳! 재회, 금전, 직업운 전문, 전화타로, 전화신점, 전화운세, 전화사주, 채팅상담 가능"
+    />
+    <meta
+      name="og:keyword"
+      content="맞점, 맛점, ㅁㅈ, 맞점후기, 맞점상담, 전화사주, 전화신점, 전화타로, 채팅사주, 채팅신점, 채팅타로, 사주, 운세, 궁합, 인연, 재회, 재회운, 금전운, 연애운, 결혼운, 애정운, 전화사주상담, 전화신점상담, 전화타로상담, 채팅사주상담, 채팅신점상담, 채팅타로상담"
+    />
+
+    <meta name="language" content="ko" />
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/images/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
+
+    <link rel="canonical" href="https://superleek.github.io" />
+    
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "itemListElement": [${counselors
+          .map(
+            (counselor, index) => `
+          {
+            "@type": "ListItem",
+            "position": ${index + 1},
+            "@type": "Person",
+            "name": "${counselor.nickname}",
+            "image": "${counselor.typeD?.uri}",
+            "url": "https://superleek.github.io/detail-${counselor.id}.html",
+          }`
+          )
+          .join(",")}]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type" : "Organization",
+        "name": "맞점",
+        "url": "https://superleek.github.io",
+        "sameAs": [
+          "https://play.google.com/store/apps/details?id=kr.co.matchtech.mazzum",
+          "https://blog.naver.com/mazzum",
+          "https://www.instagram.com/mazzum.official/",
+          "https://www.youtube.com/@mazzum.official"
+          "https://www.facebook.com/mazzum.officialpage/",
+        ]
+      }
+    </script>
+  </head>
+
+  <body>
+    <h1>
+      <a href="https://superleek.github.io">
+        <img src="/images/logo_web.png" alt="맞점 | 귀신같이 딱 맞는 맞춤 점사" />
+      </a>
+    </h1>
+    <h2>
+      <a href="https://superleek.github.io/counselor-list.html"> 상담사 목록 </a>
+    </h2>
+  </body>
+</html>`;
+
+  fs.writeFileSync(path.join(`./index.html`), html.trim());
+};
+
 async function main() {
   const counselors = await fetchCounselors();
   if (!counselors?.length) return console.error("상담사 목록 조회 실패");
+
+  // 메인 페이지 생성
+  generateIndexPage(counselors);
+
+  // 상담사 목록 페이지 생성
+  generateCounselorListPage(counselors);
 
   // 상담사 상세 페이지 생성
   counselors.forEach(counselor => {
     convertToHtml(counselor);
   });
-
-  // 상담사 목록 페이지 생성
-  generateCounselorListPage(counselors);
-
   // 사이트맵 생성
   generateSitemap(counselors);
 
-  // 북마클릿 생성
+  // 북마클릿 생성 (사용자 정의로 변경)
   generateBookmarklet(counselors);
 }
 
 main()
   .catch(console.error)
   .finally(() => {
-console.log("✅ 상담사 상세 페이지 생성 완료!");
+    console.log("✅ 상담사 상세 페이지 생성 완료!");
   });
