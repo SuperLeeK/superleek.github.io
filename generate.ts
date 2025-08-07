@@ -66,10 +66,10 @@ const CounselingCategoryLabel = {
 const removeChineseCharacters = (nickname: string): string => {
   // (한자), 한자, |한자| 등의 패턴을 제거
   return nickname
-    .replace(/\([^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]+\)/g, '') // (한자) 패턴 제거
-    .replace(/\[[^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]+\]/g, '') // [한자] 패턴 제거
-    .replace(/\|[^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]+\|/g, '') // |한자| 패턴 제거
-    .replace(/[^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F\s]/g, '') // 한자 및 특수문자 제거 (한글, 공백만 남김)
+    .replace(/\([^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]+\)/g, "") // (한자) 패턴 제거
+    .replace(/\[[^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]+\]/g, "") // [한자] 패턴 제거
+    .replace(/\|[^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]+\|/g, "") // |한자| 패턴 제거
+    .replace(/[^\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F\s]/g, "") // 한자 및 특수문자 제거 (한글, 공백만 남김)
     .trim(); // 앞뒤 공백 제거
 };
 
@@ -200,25 +200,6 @@ const convertToHtml = async (counselor: ICounselorInfo) => {
     </script>
     <script type="application/ld+json">
       {
-        "@context": "http://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [${reviews?.map(review => {
-          return `
-          {
-            "@type": "Question",
-            "name": "${review.title}",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "${review.content}"
-            }
-          }
-          `;
-        })}]
-      }
-    </script>
-
-    <script type="application/ld+json">
-      {
         "@context": "https://schema.org",
         "@type": "Product",
         "review": [${reviews?.map(review => {
@@ -250,6 +231,25 @@ const convertToHtml = async (counselor: ICounselorInfo) => {
   </body>
 </html>
   `;
+
+  /* <script type="application/ld+json">
+      {
+        "@context": "http://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [${reviews?.map(review => {
+          return `
+          {
+            "@type": "Question",
+            "name": "${review.title}",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "${review.content}"
+            }
+          }
+          `;
+        })}]
+      }
+    </script> */
 
   fs.writeFileSync(path.join(`./detail-${counselor.id}.html`), html.trim());
 };
@@ -297,7 +297,7 @@ const generateCounselorListPage = (counselors: ICounselorInfo[]) => {
         "itemListElement": [
           {
             "@type": "ListItem",
-            "position": 1,
+            "position": 0,
             "item": {
               "@id": "https://superleek.github.io/counselor-list.html",
               "name": "상담사목록"
@@ -316,10 +316,12 @@ const generateCounselorListPage = (counselors: ICounselorInfo[]) => {
           {
             "@type": "ListItem",
             "position": ${index + 1},
-            "@type": "Person",
-            "name": "${counselor.nickname}",
-            "image": "${counselor.typeD?.uri}",
-            "url": "https://superleek.github.io/detail-${counselor.id}.html",
+            "item": {
+              "@type": "Organization",
+              "name": "${counselor.nickname}",
+              "image": "${counselor.typeD?.uri}",
+              "url": "https://superleek.github.io/detail-${counselor.id}.html",
+            }
           }`
           )
           .join(",")}]
