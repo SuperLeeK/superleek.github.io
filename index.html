@@ -6,14 +6,17 @@
     <title>SuperLeeK Workspace & Hub</title>
     <meta
       name="description"
-      content="SuperLeeK's Personal Dashboard, Projects Hub, and Game Service Portal"
+      content="SuperLeeK's Personal Dashboard, Projects Hub, Bookmarks, and Game Info Center"
     />
     <meta id="metaRobots" name="robots" content="index, follow" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content="SuperLeeK Hub" />
-    <meta property="og:description" content="Personal Dashboard, Projects, Games, and Services" />
+    <meta
+      property="og:description"
+      content="Personal Dashboard, Projects, Bookmarks, and Game Info"
+    />
     <meta property="og:url" content="https://superleek.github.io/" />
 
     <!-- Google Fonts: Inter & Outfit -->
@@ -45,6 +48,7 @@
         --accent-cyan: #38bdf8;
         --accent-pink: #f472b6;
         --accent-emerald: #34d399;
+        --accent-amber: #fbbf24;
         --glow-color: rgba(99, 102, 241, 0.15);
       }
 
@@ -168,6 +172,7 @@
         box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
       }
 
+      /* Fixed Width Clock Badge to Prevent Jitter */
       .live-clock-badge {
         background: rgba(30, 41, 59, 0.8);
         border: 1px solid var(--card-border);
@@ -179,6 +184,15 @@
         align-items: center;
         gap: 0.5rem;
         backdrop-filter: blur(12px);
+        min-width: 145px;
+        justify-content: center;
+        font-variant-numeric: tabular-nums;
+      }
+
+      #liveClock {
+        font-variant-numeric: tabular-nums;
+        display: inline-block;
+        text-align: center;
       }
 
       .status-dot {
@@ -188,6 +202,7 @@
         border-radius: 50%;
         box-shadow: 0 0 10px var(--accent-emerald);
         animation: pulse 2s infinite;
+        flex-shrink: 0;
       }
 
       @keyframes pulse {
@@ -305,6 +320,10 @@
       .game-icon {
         color: var(--accent-pink);
         background: rgba(244, 114, 182, 0.1);
+      }
+      .bookmark-icon {
+        color: var(--accent-amber);
+        background: rgba(251, 191, 36, 0.1);
       }
       .rss-icon {
         color: #f97316;
@@ -520,7 +539,7 @@
               <i class="fa-solid fa-earth-americas"></i> 공개 (Public)
             </span>
           </div>
-          <p class="brand-subtitle">개인 프로젝트, 서비스 및 미니 게임 대시보드</p>
+          <p class="brand-subtitle">개인 프로젝트, 북마크 및 게임 정보 아카이브 대시보드</p>
         </div>
 
         <div class="header-widgets">
@@ -535,7 +554,7 @@
             <i class="fa-solid fa-right-from-bracket"></i> 로그아웃
           </button>
 
-          <!-- Live Clock -->
+          <!-- Live Clock (Fixed Width & Tabular Nums) -->
           <div class="live-clock-badge">
             <div class="status-dot"></div>
             <span id="liveClock">Loading...</span>
@@ -549,11 +568,11 @@
         <div id="publicContent">
           <h2 class="section-title">
             <i class="fa-solid fa-compass" style="color: var(--accent-cyan)"></i>
-            주요 페이지 진입 (Services & Games)
+            주요 서비스 및 허브 (Services & Hubs)
           </h2>
 
           <div class="grid">
-            <!-- Game Portal -->
+            <!-- Game Info Hub -->
             <a href="./game/" class="card">
               <div>
                 <div class="card-header">
@@ -562,13 +581,34 @@
                   </div>
                   <span class="external-badge">Inside Hub</span>
                 </div>
-                <h3 class="card-title">Game Center</h3>
+                <h3 class="card-title">Game Info Hub</h3>
                 <p class="card-desc">
-                  웹에서 바로 플레이할 수 있는 레트로 미니 게임 및 플레이그라운드 공간입니다.
+                  추천 게임 모음, 게임 소식 및 개발 노트 등 게임 정보를 모아둔 정보 아카이브
+                  공간입니다.
                 </p>
               </div>
-              <div class="card-footer">
-                <span>게임센터 진입하기</span>
+              <div class="card-footer" style="color: var(--accent-pink)">
+                <span>게임 정보 허브 보기</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </div>
+            </a>
+
+            <!-- Bookmark Hub (NEW) -->
+            <a href="./bookmark/" class="card">
+              <div>
+                <div class="card-header">
+                  <div class="icon-box bookmark-icon">
+                    <i class="fa-solid fa-bookmark"></i>
+                  </div>
+                  <span class="external-badge">Inside Hub</span>
+                </div>
+                <h3 class="card-title">Bookmark Hub</h3>
+                <p class="card-desc">
+                  자주 방문하는 개발 문서, 유용한 웹 도구, 디자인 리소스 및 참고 사이트 모음입니다.
+                </p>
+              </div>
+              <div class="card-footer" style="color: var(--accent-amber)">
+                <span>북마크 허브 바로가기</span>
                 <i class="fa-solid fa-arrow-right"></i>
               </div>
             </a>
@@ -687,7 +727,7 @@
     <script type="module">
       import { auth } from "./js/auth.js?v=1";
 
-      // Live Clock Functionality
+      // Live Clock Functionality with Tabular Nums Format
       function updateClock() {
         const now = new Date();
         const options = {

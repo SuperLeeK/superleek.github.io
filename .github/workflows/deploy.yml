@@ -37,7 +37,7 @@ jobs:
           fi
 
           # Replace ?v=CACHE_BUST or add timestamp cache bursting to .js references
-          sed -i "s/?v=[0-9]*/?t=$BUILD_TIME/g" index.html settings/index.html game/index.html
+          sed -i "s/?v=[0-9]*/?t=$BUILD_TIME/g" index.html settings/index.html game/index.html bookmark/index.html
 
       - name: Deploy to GitHub Pages Branch
         uses: peaceiris/actions-gh-pages@v3
