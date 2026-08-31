@@ -20,10 +20,14 @@ jobs:
         with:
           node-version: 20
 
-      - name: Inject Password Secret Hash
+      - name: Inject Password Secret Hash & Cache Busting
         env:
           DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
         run: |
+          BUILD_TIME=$(date +%s)
+          echo "Build Timestamp: $BUILD_TIME"
+
+          # Inject Secret Hash if available
           if [ -n "$DASHBOARD_PASSWORD" ]; then
             HASH=$(echo -n "$DASHBOARD_PASSWORD" | sha256sum | awk '{print $1}')
             echo "Injecting password hash..."
@@ -31,6 +35,9 @@ jobs:
           else
             echo "No DASHBOARD_PASSWORD secret found."
           fi
+
+          # Replace ?v=CACHE_BUST or add timestamp cache bursting to .js references
+          sed -i "s/?v=[0-9]*/?t=$BUILD_TIME/g" index.html settings/index.html game/index.html
 
       - name: Deploy to GitHub Pages Branch
         uses: peaceiris/actions-gh-pages@v3
