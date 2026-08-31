@@ -1,34 +1,21 @@
 {
-  "name": "mazzum-counselor-list",
-  "version": "1.0.1",
-  "description": "",
+  "name": "superleek-github-io",
+  "version": "2.0.0",
+  "description": "SuperLeeK Personal Dashboard & Services Hub",
   "main": "index.html",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "indexnow": "node indexNow.js",
-    "submit": "node indexNow.js",
-    "deploy": "npm run generate && git add . && git commit -m 'auto set and deploy' && git push && npm run submit",
-    "lint:html": "htmlhint *.html --ignore naverac3438ea019848729c2f162481140b3a.html",
-    "lint:html:fix": "htmlhint *.html --format=json > htmlhint-report.json",
-    "lint": "npm run lint:html",
-    "format": "prettier --write *.html *.js *.json *.md",
-    "format:check": "prettier --check *.html *.js *.json *.md",
-    "format:html": "prettier --write *.html",
-    "generate": "node --loader ts-node/esm generate.ts"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "type": "module",
-  "devDependencies": {
-    "@types/node": "^24.2.0",
-    "htmlhint": "^1.6.3",
-    "prettier": "^3.6.2",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.9.2"
+  "scripts": {
+    "format": "prettier --write *.html game/*.html *.json *.md",
+    "format:check": "prettier --check *.html game/*.html *.json *.md"
   },
-  "dependencies": {
-    "axios": "^1.11.0",
-    "axios-http2-adapter": "^1.0.3"
+  "keywords": [
+    "dashboard",
+    "portfolio",
+    "github-pages"
+  ],
+  "author": "SuperLeeK",
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "^3.6.2"
   }
 }

@@ -1,35 +1,4 @@
-# Robots.txt for superleek.github.io
-# 모든 검색엔진 크롤러에 대한 규칙
-
 User-agent: *
 Allow: /
 
-# IndexNow Key 파일 접근 허용
-Allow: /b69d2da5f922b5482dbdb63fd4c5b9aa.txt
-
-# 네이버 검색 크롤러 특별 설정
-User-agent: Yeti
-Allow: /
-Crawl-delay: 1
-
-User-agent: NaverBot
-Allow: /
-Crawl-delay: 1
-
-# 구글 크롤러 설정
-User-agent: Googlebot
-Allow: /
-Crawl-delay: 1
-
-# 빙 크롤러 설정
-User-agent: bingbot
-Allow: /
-
-# 사이트맵 위치
 Sitemap: https://superleek.github.io/sitemap.xml
-
-# 기타 파일들
-Allow: /images/
-Allow: /*.html
-Allow: /*.js
-Allow: /*.json
