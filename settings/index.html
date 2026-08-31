@@ -1,0 +1,464 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuperLeeK Hub - Personal Settings</title>
+
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- FontAwesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <style>
+      :root {
+        --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+        --card-bg: rgba(30, 41, 59, 0.7);
+        --card-border: rgba(255, 255, 255, 0.08);
+        --card-hover-border: rgba(99, 102, 241, 0.4);
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --accent-purple: #818cf8;
+        --accent-cyan: #38bdf8;
+        --accent-pink: #f472b6;
+        --accent-emerald: #34d399;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg-gradient);
+        color: var(--text-main);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 1.5rem;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 800px;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+      }
+
+      /* Navigation */
+      .header-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .back-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-muted);
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--card-border);
+        transition: all 0.2s ease;
+      }
+
+      .back-btn:hover {
+        color: #fff;
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(-3px);
+      }
+
+      .page-title {
+        font-family: "Outfit", sans-serif;
+        font-size: 2rem;
+        font-weight: 800;
+        background: linear-gradient(to right, #818cf8, #38bdf8);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Setting Section Card */
+      .settings-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 1.25rem;
+        padding: 2rem;
+        backdrop-filter: blur(16px);
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      }
+
+      .section-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        border-bottom: 1px solid var(--card-border);
+        padding-bottom: 0.8rem;
+      }
+
+      /* Access Mode Option Radio Cards */
+      .radio-group {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1rem;
+      }
+
+      .radio-card {
+        background: rgba(15, 23, 42, 0.5);
+        border: 2px solid var(--card-border);
+        border-radius: 1rem;
+        padding: 1.2rem;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+        transition: all 0.2s ease;
+      }
+
+      .radio-card:hover {
+        border-color: var(--card-hover-border);
+      }
+
+      .radio-card.selected {
+        border-color: var(--accent-purple);
+        background: rgba(99, 102, 241, 0.1);
+      }
+
+      .radio-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-weight: 700;
+        font-size: 1.05rem;
+      }
+
+      .radio-desc {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        line-height: 1.4;
+      }
+
+      /* Form Fields */
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .form-group label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text-muted);
+      }
+
+      .form-control {
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid var(--card-border);
+        border-radius: 0.6rem;
+        padding: 0.75rem 1rem;
+        color: var(--text-main);
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color 0.2s ease;
+      }
+
+      .form-control:focus {
+        border-color: var(--accent-purple);
+      }
+
+      .btn-submit {
+        background: linear-gradient(135deg, #6366f1, #4f46e5);
+        border: none;
+        border-radius: 0.6rem;
+        padding: 0.75rem 1.5rem;
+        color: #fff;
+        font-weight: 600;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        align-self: flex-start;
+      }
+
+      .btn-submit:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+      }
+
+      /* Alert Banner */
+      .alert-banner {
+        padding: 1rem;
+        border-radius: 0.8rem;
+        font-size: 0.9rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+      .alert-success {
+        background: rgba(52, 211, 153, 0.15);
+        color: var(--accent-emerald);
+        border: 1px solid rgba(52, 211, 153, 0.3);
+      }
+      .alert-danger {
+        background: rgba(239, 68, 68, 0.15);
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+      }
+
+      /* Guard Protection Card */
+      .unauth-card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 1.5rem;
+        padding: 3rem 2rem;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Header -->
+      <div class="header-nav">
+        <a href="../" class="back-btn">
+          <i class="fa-solid fa-arrow-left"></i> 대시보드로 돌아가기
+        </a>
+        <h1 class="page-title">개인 설정 (Settings)</h1>
+      </div>
+
+      <!-- Authenticated Settings View -->
+      <div id="authSettingsView" style="display: none" class="container" style="padding: 0">
+        <!-- Access Control Section -->
+        <div class="settings-card">
+          <h2 class="section-title">
+            <i class="fa-solid fa-shield-halved" style="color: var(--accent-purple)"></i>
+            접근 권한 설정 (Access Control Mode)
+          </h2>
+
+          <div class="radio-group">
+            <!-- Public Option -->
+            <div id="modePublic" class="radio-card">
+              <div class="radio-header">
+                <span>🔓 공개 (Public)</span>
+                <i class="fa-solid fa-circle-check" style="color: var(--accent-emerald)"></i>
+              </div>
+              <p class="radio-desc">
+                누구나 대시보드와 서브페이지(게임 등)에 자유롭게 접근할 수 있습니다.
+              </p>
+            </div>
+
+            <!-- Private Option -->
+            <div id="modePrivate" class="radio-card">
+              <div class="radio-header">
+                <span>🔒 비공개 (Private - 나만 보기)</span>
+                <i class="fa-solid fa-circle-check" style="color: var(--accent-pink)"></i>
+              </div>
+              <p class="radio-desc">
+                로그인한 나만 대시보드에 접근할 수 있으며, 미인증 접속을 완전히 차단합니다.
+              </p>
+            </div>
+          </div>
+
+          <div id="accessModeAlert" class="alert-banner alert-success" style="display: none">
+            <i class="fa-solid fa-circle-check"></i>
+            <span id="accessModeAlertText">접근 권한 설정이 성공적으로 변경되었습니다.</span>
+          </div>
+        </div>
+
+        <!-- Password Change Section -->
+        <div class="settings-card">
+          <h2 class="section-title">
+            <i class="fa-solid fa-key" style="color: var(--accent-cyan)"></i>
+            관리자 비밀번호 변경
+          </h2>
+
+          <form id="pwdForm" class="form-group" style="gap: 1rem">
+            <div class="form-group">
+              <label for="currentPwd">현재 비밀번호</label>
+              <input
+                type="password"
+                id="currentPwd"
+                class="form-control"
+                placeholder="현재 비밀번호 입력"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="newPwd">새 비밀번호</label>
+              <input
+                type="password"
+                id="newPwd"
+                class="form-control"
+                placeholder="새 비밀번호 입력 (최소 4자리)"
+                required
+              />
+            </div>
+
+            <div id="pwdAlert" class="alert-banner" style="display: none"></div>
+
+            <button type="submit" class="btn-submit">
+              <i class="fa-solid fa-floppy-disk"></i> 비밀번호 변경 저장
+            </button>
+          </form>
+        </div>
+
+        <!-- Logout Action Section -->
+        <div
+          class="settings-card"
+          style="flex-direction: row; justify-content: space-between; align-items: center"
+        >
+          <div>
+            <h3 style="font-size: 1.1rem; font-weight: 700">세션 종료</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem">
+              현재 브라우저에서의 관리자 로그아웃을 진행합니다.
+            </p>
+          </div>
+          <button
+            id="logoutBtn"
+            class="btn-submit"
+            style="
+              background: rgba(239, 68, 68, 0.2);
+              color: #f87171;
+              border: 1px solid rgba(239, 68, 68, 0.3);
+            "
+          >
+            <i class="fa-solid fa-right-from-bracket"></i> 로그아웃
+          </button>
+        </div>
+      </div>
+
+      <!-- Unauthenticated Guard View -->
+      <div id="unauthView" class="unauth-card" style="display: none">
+        <i class="fa-solid fa-lock" style="font-size: 3rem; color: var(--accent-pink)"></i>
+        <div>
+          <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem">
+            로그인이 필요한 페이지입니다
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem">
+            설정을 변경하려면 먼저 대시보드에서 로그인해주세요.
+          </p>
+        </div>
+        <a href="../" class="btn-submit">
+          <i class="fa-solid fa-house"></i> 대시보드로 이동하여 로그인하기
+        </a>
+      </div>
+    </div>
+
+    <script type="module">
+      import { auth } from "../js/auth.js";
+
+      const authSettingsView = document.getElementById("authSettingsView");
+      const unauthView = document.getElementById("unauthView");
+
+      const modePublic = document.getElementById("modePublic");
+      const modePrivate = document.getElementById("modePrivate");
+      const accessModeAlert = document.getElementById("accessModeAlert");
+      const accessModeAlertText = document.getElementById("accessModeAlertText");
+
+      const pwdForm = document.getElementById("pwdForm");
+      const currentPwd = document.getElementById("currentPwd");
+      const newPwd = document.getElementById("newPwd");
+      const pwdAlert = document.getElementById("pwdAlert");
+
+      const logoutBtn = document.getElementById("logoutBtn");
+
+      // Check Login State
+      if (!auth.isLoggedIn()) {
+        unauthView.style.display = "flex";
+        authSettingsView.style.display = "none";
+      } else {
+        unauthView.style.display = "none";
+        authSettingsView.style.display = "flex";
+        renderAccessMode();
+      }
+
+      // Render Access Mode UI
+      function renderAccessMode() {
+        const mode = auth.getAccessMode();
+        if (mode === "public") {
+          modePublic.classList.add("selected");
+          modePrivate.classList.remove("selected");
+        } else {
+          modePrivate.classList.add("selected");
+          modePublic.classList.remove("selected");
+        }
+      }
+
+      // Select Access Mode
+      modePublic.addEventListener("click", () => {
+        auth.setAccessMode("public");
+        renderAccessMode();
+        showAccessAlert(
+          "🔓 공개 모드(Public)로 설정되었습니다. 누구나 대시보드에 접근할 수 있습니다."
+        );
+      });
+
+      modePrivate.addEventListener("click", () => {
+        auth.setAccessMode("private");
+        renderAccessMode();
+        showAccessAlert(
+          "🔒 비공개 모드(Private)로 설정되었습니다. 로그인한 관리자만 대시보드에 접근할 수 있습니다."
+        );
+      });
+
+      function showAccessAlert(msg) {
+        accessModeAlertText.textContent = msg;
+        accessModeAlert.style.display = "flex";
+        setTimeout(() => {
+          accessModeAlert.style.display = "none";
+        }, 4000);
+      }
+
+      // Password Change Submit
+      pwdForm.addEventListener("submit", async e => {
+        e.preventDefault();
+        const res = await auth.changePassword(currentPwd.value, newPwd.value);
+
+        pwdAlert.style.display = "flex";
+        if (res.success) {
+          pwdAlert.className = "alert-banner alert-success";
+          pwdAlert.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${res.message}`;
+          currentPwd.value = "";
+          newPwd.value = "";
+        } else {
+          pwdAlert.className = "alert-banner alert-danger";
+          pwdAlert.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i> ${res.message}`;
+        }
+      });
+
+      // Logout Action
+      logoutBtn.addEventListener("click", () => {
+        auth.logout();
+        window.location.href = "../";
+      });
+    </script>
+  </body>
+</html>

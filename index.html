@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SuperLeeK Workspace & Hub</title>
+    <meta
+      name="description"
+      content="SuperLeeK's Personal Dashboard, Projects Hub, and Game Service Portal"
+    />
+    <meta id="metaRobots" name="robots" content="index, follow" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SuperLeeK Hub" />
+    <meta property="og:description" content="Personal Dashboard, Projects, Games, and Services" />
+    <meta property="og:url" content="https://superleek.github.io/" />
+
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- FontAwesome Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <script src="./js/config.js"></script>
+
+    <style>
+      :root {
+        --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #0f172a 100%);
+        --card-bg: rgba(30, 41, 59, 0.6);
+        --card-border: rgba(255, 255, 255, 0.08);
+        --card-hover-border: rgba(99, 102, 241, 0.4);
+        --text-main: #f8fafc;
+        --text-muted: #94a3b8;
+        --accent-purple: #818cf8;
+        --accent-cyan: #38bdf8;
+        --accent-pink: #f472b6;
+        --accent-emerald: #34d399;
+        --glow-color: rgba(99, 102, 241, 0.15);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg-gradient);
+        color: var(--text-main);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Ambient Background Glows */
+      .ambient-glow {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(120px);
+        pointer-events: none;
+        z-index: 0;
+      }
+      .glow-1 {
+        top: -100px;
+        left: -100px;
+        width: 450px;
+        height: 450px;
+        background: rgba(99, 102, 241, 0.25);
+      }
+      .glow-2 {
+        bottom: -100px;
+        right: -100px;
+        width: 500px;
+        height: 500px;
+        background: rgba(56, 189, 248, 0.2);
+      }
+
+      /* Container */
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        padding: 3rem 1.5rem;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 2.5rem;
+      }
+
+      /* Header / Hero Section */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid var(--card-border);
+        flex-wrap: wrap;
+        gap: 1.5rem;
+      }
+
+      .brand-title {
+        font-family: "Outfit", sans-serif;
+        font-size: 2.5rem;
+        font-weight: 800;
+        background: linear-gradient(to right, #818cf8, #38bdf8, #f472b6);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        letter-spacing: -0.02em;
+      }
+
+      .brand-subtitle {
+        color: var(--text-muted);
+        font-size: 1.05rem;
+        margin-top: 0.25rem;
+        font-weight: 400;
+      }
+
+      .header-widgets {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+      }
+
+      .btn-action {
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid var(--card-border);
+        padding: 0.55rem 1.1rem;
+        border-radius: 9999px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-main);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        backdrop-filter: blur(12px);
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+
+      .btn-action:hover {
+        border-color: var(--card-hover-border);
+        background: rgba(45, 60, 85, 0.9);
+        transform: translateY(-2px);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #6366f1, #4f46e5);
+        border: none;
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #4f46e5, #4338ca);
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+      }
+
+      .live-clock-badge {
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid var(--card-border);
+        padding: 0.55rem 1.1rem;
+        border-radius: 9999px;
+        font-size: 0.85rem;
+        color: var(--accent-cyan);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        backdrop-filter: blur(12px);
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        background-color: var(--accent-emerald);
+        border-radius: 50%;
+        box-shadow: 0 0 10px var(--accent-emerald);
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.4;
+        }
+      }
+
+      /* Access Mode Indicator Badge */
+      .access-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.6rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+      .badge-public {
+        background: rgba(52, 211, 153, 0.15);
+        color: var(--accent-emerald);
+        border: 1px solid rgba(52, 211, 153, 0.3);
+      }
+      .badge-private {
+        background: rgba(244, 114, 182, 0.15);
+        color: var(--accent-pink);
+        border: 1px solid rgba(244, 114, 182, 0.3);
+      }
+
+      /* Section Headers */
+      .section-title {
+        font-family: "Outfit", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        color: var(--text-main);
+      }
+
+      /* Dashboard Cards Grid */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .card {
+        background: var(--card-bg);
+        border: 1px solid var(--card-border);
+        border-radius: 1.25rem;
+        padding: 1.8rem;
+        backdrop-filter: blur(16px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        text-decoration: none;
+        color: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, var(--accent-purple), var(--accent-cyan));
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .card:hover {
+        transform: translateY(-6px);
+        border-color: var(--card-hover-border);
+        box-shadow: 0 12px 30px var(--glow-color);
+      }
+
+      .card:hover::before {
+        opacity: 1;
+      }
+
+      .card-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 1.2rem;
+      }
+
+      .icon-box {
+        width: 52px;
+        height: 52px;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: transform 0.3s ease;
+      }
+
+      .card:hover .icon-box {
+        transform: scale(1.1) rotate(4deg);
+      }
+
+      .game-icon {
+        color: var(--accent-pink);
+        background: rgba(244, 114, 182, 0.1);
+      }
+      .rss-icon {
+        color: #f97316;
+        background: rgba(249, 115, 22, 0.1);
+      }
+      .github-icon {
+        color: var(--accent-cyan);
+        background: rgba(56, 189, 248, 0.1);
+      }
+
+      .external-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.6rem;
+        border-radius: 9999px;
+        background: rgba(255, 255, 255, 0.08);
+        color: var(--text-muted);
+        border: 1px solid var(--card-border);
+      }
+
+      .card-title {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text-main);
+      }
+
+      .card-desc {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+      }
+
+      .card-footer {
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--accent-purple);
+        margin-top: auto;
+        transition: gap 0.2s ease;
+      }
+
+      .card:hover .card-footer {
+        gap: 0.7rem;
+      }
+
+      /* Private Locked Screen Layer */
+      .private-locked-card {
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid var(--card-border);
+        border-radius: 1.5rem;
+        padding: 3rem 2rem;
+        text-align: center;
+        backdrop-filter: blur(20px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      }
+
+      .lock-icon-lg {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: rgba(244, 114, 182, 0.1);
+        border: 1px solid rgba(244, 114, 182, 0.3);
+        color: var(--accent-pink);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+      }
+
+      /* Modal Styling */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal-card {
+        background: rgba(30, 41, 59, 0.95);
+        border: 1px solid var(--card-hover-border);
+        border-radius: 1.25rem;
+        padding: 2rem;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+      }
+
+      .modal-overlay.active .modal-card {
+        transform: scale(1);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .modal-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .form-group label {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .form-control {
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid var(--card-border);
+        border-radius: 0.6rem;
+        padding: 0.75rem 1rem;
+        color: var(--text-main);
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color 0.2s ease;
+      }
+
+      .form-control:focus {
+        border-color: var(--accent-purple);
+      }
+
+      .error-msg {
+        color: #ef4444;
+        font-size: 0.85rem;
+        display: none;
+      }
+
+      /* Footer */
+      footer {
+        text-align: center;
+        padding: 2rem 0;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        border-top: 1px solid var(--card-border);
+        margin-top: auto;
+      }
+
+      footer a {
+        color: var(--accent-cyan);
+        text-decoration: none;
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          padding: 2rem 1rem;
+        }
+        .brand-title {
+          font-size: 2rem;
+        }
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Ambient background glow elements -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <div class="container">
+      <!-- Header -->
+      <header>
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.8rem">
+            <h1 class="brand-title">SuperLeeK Hub</h1>
+            <span id="accessBadge" class="access-badge badge-public">
+              <i class="fa-solid fa-earth-americas"></i> 공개 (Public)
+            </span>
+          </div>
+          <p class="brand-subtitle">개인 프로젝트, 서비스 및 미니 게임 대시보드</p>
+        </div>
+
+        <div class="header-widgets">
+          <!-- Auth & Settings Buttons -->
+          <button id="loginBtn" class="btn-action btn-primary">
+            <i class="fa-solid fa-key"></i> 로그인
+          </button>
+          <a id="settingsBtn" href="./settings/" class="btn-action" style="display: none">
+            <i class="fa-solid fa-gear"></i> 설정
+          </a>
+          <button id="logoutBtn" class="btn-action" style="display: none">
+            <i class="fa-solid fa-right-from-bracket"></i> 로그아웃
+          </button>
+
+          <!-- Live Clock -->
+          <div class="live-clock-badge">
+            <div class="status-dot"></div>
+            <span id="liveClock">Loading...</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Navigation Section -->
+      <main>
+        <!-- Normal Dashboard Grid (Visible when Public OR Logged In) -->
+        <div id="publicContent">
+          <h2 class="section-title">
+            <i class="fa-solid fa-compass" style="color: var(--accent-cyan)"></i>
+            주요 페이지 진입 (Services & Games)
+          </h2>
+
+          <div class="grid">
+            <!-- Game Portal -->
+            <a href="./game/" class="card">
+              <div>
+                <div class="card-header">
+                  <div class="icon-box game-icon">
+                    <i class="fa-solid fa-gamepad"></i>
+                  </div>
+                  <span class="external-badge">Inside Hub</span>
+                </div>
+                <h3 class="card-title">Game Center</h3>
+                <p class="card-desc">
+                  웹에서 바로 플레이할 수 있는 레트로 미니 게임 및 플레이그라운드 공간입니다.
+                </p>
+              </div>
+              <div class="card-footer">
+                <span>게임센터 진입하기</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </div>
+            </a>
+
+            <!-- RSS Service -->
+            <a href="./rss/" class="card">
+              <div>
+                <div class="card-header">
+                  <div class="icon-box rss-icon">
+                    <i class="fa-solid fa-rss"></i>
+                  </div>
+                  <span class="external-badge">Service Link</span>
+                </div>
+                <h3 class="card-title">RSS Generator</h3>
+                <p class="card-desc">
+                  원하는 콘텐츠 및 채널의 RSS 피드를 생성하고 구독 정보를 관리하는 서비스입니다.
+                </p>
+              </div>
+              <div class="card-footer" style="color: #f97316">
+                <span>RSS 사이트 바로가기</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </div>
+            </a>
+
+            <!-- GitHub Profile -->
+            <a
+              href="https://github.com/SuperLeeK"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card"
+            >
+              <div>
+                <div class="card-header">
+                  <div class="icon-box github-icon">
+                    <i class="fa-brands fa-github"></i>
+                  </div>
+                  <span class="external-badge">External</span>
+                </div>
+                <h3 class="card-title">GitHub Workspace</h3>
+                <p class="card-desc">
+                  SuperLeeK의 소스코드 저장소, Open Source 활동 및 작업 프로젝트 목록입니다.
+                </p>
+              </div>
+              <div class="card-footer" style="color: var(--accent-cyan)">
+                <span>GitHub 저장소 보기</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Private Locked Container (Visible ONLY when Private AND Not Logged In) -->
+        <div id="privateLockedContent" class="private-locked-card" style="display: none">
+          <div class="lock-icon-lg">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <div>
+            <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem">
+              이 대시보드는 현재 비공개(Private) 상태입니다
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem">
+              대시보드 콘텐츠 및 서브페이지를 확인하려면 관리자 비밀번호로 로그인해주세요.
+            </p>
+          </div>
+          <button
+            id="privateLoginBtn"
+            class="btn-action btn-primary"
+            style="padding: 0.75rem 1.8rem; font-size: 1rem"
+          >
+            <i class="fa-solid fa-key"></i> 로그인하기
+          </button>
+        </div>
+      </main>
+
+      <!-- Footer -->
+      <footer>
+        <p>
+          © 2026 <strong>SuperLeeK</strong>. All rights reserved. Hosted on
+          <a href="https://pages.github.com" target="_blank">GitHub Pages</a>.
+        </p>
+      </footer>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title">
+            <i class="fa-solid fa-lock" style="color: var(--accent-purple)"></i>
+            <span>관리자 로그인</span>
+          </div>
+          <button id="closeModalBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form id="loginForm" class="form-group">
+          <label for="passwordInput">비밀번호</label>
+          <input
+            type="password"
+            id="passwordInput"
+            class="form-control"
+            placeholder="비밀번호를 입력하세요"
+            required
+            autofocus
+          />
+          <div id="loginError" class="error-msg">비밀번호가 올바르지 않습니다.</div>
+          <button
+            type="submit"
+            class="btn-action btn-primary"
+            style="justify-content: center; width: 100%; margin-top: 0.5rem; padding: 0.75rem"
+          >
+            로그인
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script type="module">
+      import { auth } from "./js/auth.js";
+
+      // Live Clock Functionality
+      function updateClock() {
+        const now = new Date();
+        const options = {
+          timeZone: "Asia/Seoul",
+          hour12: false,
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+        };
+        const timeStr = new Intl.DateTimeFormat("ko-KR", options).format(now);
+        document.getElementById("liveClock").textContent = `KST ${timeStr}`;
+      }
+      updateClock();
+      setInterval(updateClock, 1000);
+
+      // DOM Elements
+      const loginBtn = document.getElementById("loginBtn");
+      const privateLoginBtn = document.getElementById("privateLoginBtn");
+      const settingsBtn = document.getElementById("settingsBtn");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const accessBadge = document.getElementById("accessBadge");
+      const publicContent = document.getElementById("publicContent");
+      const privateLockedContent = document.getElementById("privateLockedContent");
+      const loginModal = document.getElementById("loginModal");
+      const closeModalBtn = document.getElementById("closeModalBtn");
+      const loginForm = document.getElementById("loginForm");
+      const passwordInput = document.getElementById("passwordInput");
+      const loginError = document.getElementById("loginError");
+
+      // Update UI based on Auth & Access State
+      function renderState() {
+        const mode = auth.getAccessMode();
+        const loggedIn = auth.isLoggedIn();
+
+        // Access Mode Badge
+        if (mode === "public") {
+          accessBadge.className = "access-badge badge-public";
+          accessBadge.innerHTML = '<i class="fa-solid fa-earth-americas"></i> 공개 (Public)';
+        } else {
+          accessBadge.className = "access-badge badge-private";
+          accessBadge.innerHTML = '<i class="fa-solid fa-lock"></i> 비공개 (Private)';
+        }
+
+        // Buttons visibility
+        if (loggedIn) {
+          loginBtn.style.display = "none";
+          settingsBtn.style.display = "flex";
+          logoutBtn.style.display = "flex";
+        } else {
+          loginBtn.style.display = "flex";
+          settingsBtn.style.display = "none";
+          logoutBtn.style.display = "none";
+        }
+
+        // Main Content Visibility
+        if (mode === "private" && !loggedIn) {
+          publicContent.style.display = "none";
+          privateLockedContent.style.display = "flex";
+        } else {
+          publicContent.style.display = "block";
+          privateLockedContent.style.display = "none";
+        }
+      }
+
+      // Modal Control
+      function openModal() {
+        loginModal.classList.add("active");
+        passwordInput.value = "";
+        loginError.style.display = "none";
+        setTimeout(() => passwordInput.focus(), 100);
+      }
+
+      function closeModal() {
+        loginModal.classList.remove("active");
+      }
+
+      loginBtn.addEventListener("click", openModal);
+      privateLoginBtn.addEventListener("click", openModal);
+      closeModalBtn.addEventListener("click", closeModal);
+      loginModal.addEventListener("click", e => {
+        if (e.target === loginModal) closeModal();
+      });
+
+      // Login Form Submit
+      loginForm.addEventListener("submit", async e => {
+        e.preventDefault();
+        const pwd = passwordInput.value;
+        const res = await auth.login(pwd);
+
+        if (res.success) {
+          closeModal();
+          renderState();
+        } else {
+          loginError.style.display = "block";
+          loginError.textContent = res.message;
+        }
+      });
+
+      // Logout
+      logoutBtn.addEventListener("click", () => {
+        auth.logout();
+        renderState();
+      });
+
+      // Initial Render
+      renderState();
+    </script>
+  </body>
+</html>
