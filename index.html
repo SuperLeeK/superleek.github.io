@@ -128,63 +128,54 @@
       .header-widgets {
         display: flex;
         align-items: center;
-        gap: 1rem;
+        gap: 0.8rem;
         flex-wrap: wrap;
+      }
+
+      .btn-action {
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid var(--card-border);
+        padding: 0.55rem 1.1rem;
+        border-radius: 9999px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-main);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        backdrop-filter: blur(12px);
+        text-decoration: none;
+        transition: all 0.2s ease;
+      }
+
+      .btn-action:hover {
+        border-color: var(--card-hover-border);
+        background: rgba(45, 60, 85, 0.9);
+        transform: translateY(-2px);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #6366f1, #4f46e5);
+        border: none;
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: linear-gradient(135deg, #4f46e5, #4338ca);
+        box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
       }
 
       .live-clock-badge {
         background: rgba(30, 41, 59, 0.8);
         border: 1px solid var(--card-border);
-        padding: 0.6rem 1.2rem;
+        padding: 0.55rem 1.1rem;
         border-radius: 9999px;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         color: var(--accent-cyan);
         display: flex;
         align-items: center;
         gap: 0.5rem;
         backdrop-filter: blur(12px);
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-      }
-
-      /* SEO Toggle Switch Button */
-      .seo-toggle-btn {
-        background: rgba(30, 41, 59, 0.8);
-        border: 1px solid var(--card-border);
-        padding: 0.5rem 1rem;
-        border-radius: 9999px;
-        font-size: 0.85rem;
-        color: var(--text-main);
-        display: flex;
-        align-items: center;
-        gap: 0.6rem;
-        cursor: pointer;
-        backdrop-filter: blur(12px);
-        transition: all 0.25 ease;
-        user-select: none;
-      }
-
-      .seo-toggle-btn:hover {
-        border-color: var(--card-hover-border);
-        background: rgba(45, 60, 85, 0.9);
-      }
-
-      .seo-dot {
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        transition:
-          background-color 0.3s ease,
-          box-shadow 0.3s ease;
-      }
-
-      .seo-dot.active {
-        background-color: var(--accent-emerald);
-        box-shadow: 0 0 10px var(--accent-emerald);
-      }
-
-      .seo-dot.inactive {
-        background-color: #ef4444;
-        box-shadow: 0 0 10px #ef4444;
       }
 
       .status-dot {
@@ -204,6 +195,27 @@
         50% {
           opacity: 0.4;
         }
+      }
+
+      /* Access Mode Indicator Badge */
+      .access-badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.6rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+      }
+      .badge-public {
+        background: rgba(52, 211, 153, 0.15);
+        color: var(--accent-emerald);
+        border: 1px solid rgba(52, 211, 153, 0.3);
+      }
+      .badge-private {
+        background: rgba(244, 114, 182, 0.15);
+        color: var(--accent-pink);
+        border: 1px solid rgba(244, 114, 182, 0.3);
       }
 
       /* Section Headers */
@@ -338,29 +350,128 @@
         gap: 0.7rem;
       }
 
-      /* Toast notification */
-      .toast {
-        position: fixed;
-        bottom: 2rem;
-        right: 2rem;
-        background: rgba(15, 23, 42, 0.95);
-        border: 1px solid var(--card-hover-border);
-        padding: 0.8rem 1.4rem;
-        border-radius: 0.8rem;
-        color: var(--text-main);
-        font-size: 0.9rem;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      /* Private Locked Screen Layer */
+      .private-locked-card {
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid var(--card-border);
+        border-radius: 1.5rem;
+        padding: 3rem 2rem;
+        text-align: center;
+        backdrop-filter: blur(20px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+      }
+
+      .lock-icon-lg {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: rgba(244, 114, 182, 0.1);
+        border: 1px solid rgba(244, 114, 182, 0.3);
+        color: var(--accent-pink);
         display: flex;
         align-items: center;
-        gap: 0.6rem;
-        transform: translateY(100px);
-        opacity: 0;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        z-index: 100;
+        justify-content: center;
+        font-size: 2rem;
       }
-      .toast.show {
-        transform: translateY(0);
+
+      /* Modal Styling */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+
+      .modal-overlay.active {
         opacity: 1;
+        pointer-events: auto;
+      }
+
+      .modal-card {
+        background: rgba(30, 41, 59, 0.95);
+        border: 1px solid var(--card-hover-border);
+        border-radius: 1.25rem;
+        padding: 2rem;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        gap: 1.2rem;
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+      }
+
+      .modal-overlay.active .modal-card {
+        transform: scale(1);
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .modal-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .close-btn {
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .form-group label {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+      }
+
+      .form-control {
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid var(--card-border);
+        border-radius: 0.6rem;
+        padding: 0.75rem 1rem;
+        color: var(--text-main);
+        font-size: 0.95rem;
+        outline: none;
+        transition: border-color 0.2s ease;
+      }
+
+      .form-control:focus {
+        border-color: var(--accent-purple);
+      }
+
+      .error-msg {
+        color: #ef4444;
+        font-size: 0.85rem;
+        display: none;
       }
 
       /* Footer */
@@ -400,19 +511,25 @@
       <!-- Header -->
       <header>
         <div>
-          <h1 class="brand-title">SuperLeeK Hub</h1>
+          <div style="display: flex; align-items: center; gap: 0.8rem">
+            <h1 class="brand-title">SuperLeeK Hub</h1>
+            <span id="accessBadge" class="access-badge badge-public">
+              <i class="fa-solid fa-earth-americas"></i> 공개 (Public)
+            </span>
+          </div>
           <p class="brand-subtitle">개인 프로젝트, 서비스 및 미니 게임 대시보드</p>
         </div>
 
         <div class="header-widgets">
-          <!-- SEO Toggle Button -->
-          <button
-            id="seoToggleBtn"
-            class="seo-toggle-btn"
-            title="검색엔진 노출 (Search Engine Indexing) 설정 토글"
-          >
-            <div id="seoDot" class="seo-dot active"></div>
-            <span id="seoLabel">검색 노출: ON</span>
+          <!-- Auth & Settings Buttons -->
+          <button id="loginBtn" class="btn-action btn-primary">
+            <i class="fa-solid fa-key"></i> 로그인
+          </button>
+          <a id="settingsBtn" href="./settings/" class="btn-action" style="display: none">
+            <i class="fa-solid fa-gear"></i> 설정
+          </a>
+          <button id="logoutBtn" class="btn-action" style="display: none">
+            <i class="fa-solid fa-right-from-bracket"></i> 로그아웃
           </button>
 
           <!-- Live Clock -->
@@ -425,76 +542,101 @@
 
       <!-- Main Navigation Section -->
       <main>
-        <h2 class="section-title">
-          <i class="fa-solid fa-compass" style="color: var(--accent-cyan)"></i>
-          주요 페이지 진입 (Services & Games)
-        </h2>
+        <!-- Normal Dashboard Grid (Visible when Public OR Logged In) -->
+        <div id="publicContent">
+          <h2 class="section-title">
+            <i class="fa-solid fa-compass" style="color: var(--accent-cyan)"></i>
+            주요 페이지 진입 (Services & Games)
+          </h2>
 
-        <div class="grid">
-          <!-- Game Portal -->
-          <a href="./game/" class="card">
-            <div>
-              <div class="card-header">
-                <div class="icon-box game-icon">
-                  <i class="fa-solid fa-gamepad"></i>
+          <div class="grid">
+            <!-- Game Portal -->
+            <a href="./game/" class="card">
+              <div>
+                <div class="card-header">
+                  <div class="icon-box game-icon">
+                    <i class="fa-solid fa-gamepad"></i>
+                  </div>
+                  <span class="external-badge">Inside Hub</span>
                 </div>
-                <span class="external-badge">Inside Hub</span>
+                <h3 class="card-title">Game Center</h3>
+                <p class="card-desc">
+                  웹에서 바로 플레이할 수 있는 레트로 미니 게임 및 플레이그라운드 공간입니다.
+                </p>
               </div>
-              <h3 class="card-title">Game Center</h3>
-              <p class="card-desc">
-                웹에서 바로 플레이할 수 있는 레트로 미니 게임 및 플레이그라운드 공간입니다.
-              </p>
-            </div>
-            <div class="card-footer">
-              <span>게임센터 진입하기</span>
-              <i class="fa-solid fa-arrow-right"></i>
-            </div>
-          </a>
+              <div class="card-footer">
+                <span>게임센터 진입하기</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </div>
+            </a>
 
-          <!-- RSS Service -->
-          <a href="./rss/" class="card">
-            <div>
-              <div class="card-header">
-                <div class="icon-box rss-icon">
-                  <i class="fa-solid fa-rss"></i>
+            <!-- RSS Service -->
+            <a href="./rss/" class="card">
+              <div>
+                <div class="card-header">
+                  <div class="icon-box rss-icon">
+                    <i class="fa-solid fa-rss"></i>
+                  </div>
+                  <span class="external-badge">Service Link</span>
                 </div>
-                <span class="external-badge">Service Link</span>
+                <h3 class="card-title">RSS Generator</h3>
+                <p class="card-desc">
+                  원하는 콘텐츠 및 채널의 RSS 피드를 생성하고 구독 정보를 관리하는 서비스입니다.
+                </p>
               </div>
-              <h3 class="card-title">RSS Generator</h3>
-              <p class="card-desc">
-                원하는 콘텐츠 및 채널의 RSS 피드를 생성하고 구독 정보를 관리하는 서비스입니다.
-              </p>
-            </div>
-            <div class="card-footer" style="color: #f97316">
-              <span>RSS 사이트 바로가기</span>
-              <i class="fa-solid fa-arrow-right"></i>
-            </div>
-          </a>
+              <div class="card-footer" style="color: #f97316">
+                <span>RSS 사이트 바로가기</span>
+                <i class="fa-solid fa-arrow-right"></i>
+              </div>
+            </a>
 
-          <!-- GitHub Profile -->
-          <a
-            href="https://github.com/SuperLeeK"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="card"
+            <!-- GitHub Profile -->
+            <a
+              href="https://github.com/SuperLeeK"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="card"
+            >
+              <div>
+                <div class="card-header">
+                  <div class="icon-box github-icon">
+                    <i class="fa-brands fa-github"></i>
+                  </div>
+                  <span class="external-badge">External</span>
+                </div>
+                <h3 class="card-title">GitHub Workspace</h3>
+                <p class="card-desc">
+                  SuperLeeK의 소스코드 저장소, Open Source 활동 및 작업 프로젝트 목록입니다.
+                </p>
+              </div>
+              <div class="card-footer" style="color: var(--accent-cyan)">
+                <span>GitHub 저장소 보기</span>
+                <i class="fa-solid fa-arrow-up-right-from-square"></i>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Private Locked Container (Visible ONLY when Private AND Not Logged In) -->
+        <div id="privateLockedContent" class="private-locked-card" style="display: none">
+          <div class="lock-icon-lg">
+            <i class="fa-solid fa-lock"></i>
+          </div>
+          <div>
+            <h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.5rem">
+              이 대시보드는 현재 비공개(Private) 상태입니다
+            </h2>
+            <p style="color: var(--text-muted); font-size: 0.95rem">
+              대시보드 콘텐츠 및 서브페이지를 확인하려면 관리자 비밀번호로 로그인해주세요.
+            </p>
+          </div>
+          <button
+            id="privateLoginBtn"
+            class="btn-action btn-primary"
+            style="padding: 0.75rem 1.8rem; font-size: 1rem"
           >
-            <div>
-              <div class="card-header">
-                <div class="icon-box github-icon">
-                  <i class="fa-brands fa-github"></i>
-                </div>
-                <span class="external-badge">External</span>
-              </div>
-              <h3 class="card-title">GitHub Workspace</h3>
-              <p class="card-desc">
-                SuperLeeK의 소스코드 저장소, Open Source 활동 및 작업 프로젝트 목록입니다.
-              </p>
-            </div>
-            <div class="card-footer" style="color: var(--accent-cyan)">
-              <span>GitHub 저장소 보기</span>
-              <i class="fa-solid fa-arrow-up-right-from-square"></i>
-            </div>
-          </a>
+            <i class="fa-solid fa-key"></i> 로그인하기
+          </button>
         </div>
       </main>
 
@@ -507,13 +649,53 @@
       </footer>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="toast">
-      <i class="fa-solid fa-circle-info" style="color: var(--accent-cyan)"></i>
-      <span id="toastMsg">SEO 노출 설정이 변경되었습니다.</span>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal-overlay">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-title">
+            <i class="fa-solid fa-lock" style="color: var(--accent-purple)"></i>
+            <span>관리자 로그인</span>
+          </div>
+          <button id="closeModalBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <form id="loginForm" class="form-group">
+          <label for="passwordInput">비밀번호</label>
+          <input
+            type="password"
+            id="passwordInput"
+            class="form-control"
+            placeholder="비밀번호를 입력하세요"
+            required
+            autofocus
+          />
+          <div id="loginError" class="error-msg">비밀번호가 올바르지 않습니다.</div>
+          <button
+            type="submit"
+            class="btn-action btn-primary"
+            style="justify-content: center; width: 100%; margin-top: 0.5rem; padding: 0.75rem"
+          >
+            로그인
+          </button>
+        </form>
+        <div
+          style="
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+            border-top: 1px solid var(--card-border);
+            padding-top: 0.8rem;
+          "
+        >
+          초기 비밀번호: <code style="color: var(--accent-cyan)">superleek123</code> (로그인 후
+          설정에서 변경 가능)
+        </div>
+      </div>
     </div>
 
-    <script>
+    <script type="module">
+      import { auth } from "./js/auth.js";
+
       // Live Clock Functionality
       function updateClock() {
         const now = new Date();
@@ -530,48 +712,97 @@
       updateClock();
       setInterval(updateClock, 1000);
 
-      // SEO Toggle Control
-      const seoToggleBtn = document.getElementById("seoToggleBtn");
-      const seoDot = document.getElementById("seoDot");
-      const seoLabel = document.getElementById("seoLabel");
-      const metaRobots = document.getElementById("metaRobots");
-      const toast = document.getElementById("toast");
-      const toastMsg = document.getElementById("toastMsg");
+      // DOM Elements
+      const loginBtn = document.getElementById("loginBtn");
+      const privateLoginBtn = document.getElementById("privateLoginBtn");
+      const settingsBtn = document.getElementById("settingsBtn");
+      const logoutBtn = document.getElementById("logoutBtn");
+      const accessBadge = document.getElementById("accessBadge");
+      const publicContent = document.getElementById("publicContent");
+      const privateLockedContent = document.getElementById("privateLockedContent");
+      const loginModal = document.getElementById("loginModal");
+      const closeModalBtn = document.getElementById("closeModalBtn");
+      const loginForm = document.getElementById("loginForm");
+      const passwordInput = document.getElementById("passwordInput");
+      const loginError = document.getElementById("loginError");
 
-      function showToast(msg) {
-        toastMsg.textContent = msg;
-        toast.classList.add("show");
-        setTimeout(() => {
-          toast.classList.remove("show");
-        }, 3000);
-      }
+      // Update UI based on Auth & Access State
+      function renderState() {
+        const mode = auth.getAccessMode();
+        const loggedIn = auth.isLoggedIn();
 
-      function applySeoState(enabled) {
-        if (enabled) {
-          seoDot.className = "seo-dot active";
-          seoLabel.textContent = "검색 노출: ON";
-          metaRobots.setAttribute("content", "index, follow");
+        // Access Mode Badge
+        if (mode === "public") {
+          accessBadge.className = "access-badge badge-public";
+          accessBadge.innerHTML = '<i class="fa-solid fa-earth-americas"></i> 공개 (Public)';
         } else {
-          seoDot.className = "seo-dot inactive";
-          seoLabel.textContent = "검색 노출: OFF (noindex)";
-          metaRobots.setAttribute("content", "noindex, nofollow");
+          accessBadge.className = "access-badge badge-private";
+          accessBadge.innerHTML = '<i class="fa-solid fa-lock"></i> 비공개 (Private)';
+        }
+
+        // Buttons visibility
+        if (loggedIn) {
+          loginBtn.style.display = "none";
+          settingsBtn.style.display = "flex";
+          logoutBtn.style.display = "flex";
+        } else {
+          loginBtn.style.display = "flex";
+          settingsBtn.style.display = "none";
+          logoutBtn.style.display = "none";
+        }
+
+        // Main Content Visibility
+        if (mode === "private" && !loggedIn) {
+          publicContent.style.display = "none";
+          privateLockedContent.style.display = "flex";
+        } else {
+          publicContent.style.display = "block";
+          privateLockedContent.style.display = "none";
         }
       }
 
-      // Load initial state
-      let seoEnabled = localStorage.getItem("seo_indexing_enabled") !== "false";
-      applySeoState(seoEnabled);
+      // Modal Control
+      function openModal() {
+        loginModal.classList.add("active");
+        passwordInput.value = "";
+        loginError.style.display = "none";
+        setTimeout(() => passwordInput.focus(), 100);
+      }
 
-      seoToggleBtn.addEventListener("click", () => {
-        seoEnabled = !seoEnabled;
-        localStorage.setItem("seo_indexing_enabled", seoEnabled ? "true" : "false");
-        applySeoState(seoEnabled);
-        showToast(
-          seoEnabled
-            ? "검색엔진 수집 허용 (index, follow) 설정"
-            : "검색엔진 수집 차단 (noindex, nofollow) 설정"
-        );
+      function closeModal() {
+        loginModal.classList.remove("active");
+      }
+
+      loginBtn.addEventListener("click", openModal);
+      privateLoginBtn.addEventListener("click", openModal);
+      closeModalBtn.addEventListener("click", closeModal);
+      loginModal.addEventListener("click", e => {
+        if (e.target === loginModal) closeModal();
       });
+
+      // Login Form Submit
+      loginForm.addEventListener("submit", async e => {
+        e.preventDefault();
+        const pwd = passwordInput.value;
+        const res = await auth.login(pwd);
+
+        if (res.success) {
+          closeModal();
+          renderState();
+        } else {
+          loginError.style.display = "block";
+          loginError.textContent = res.message;
+        }
+      });
+
+      // Logout
+      logoutBtn.addEventListener("click", () => {
+        auth.logout();
+        renderState();
+      });
+
+      // Initial Render
+      renderState();
     </script>
   </body>
 </html>
