@@ -5,14 +5,14 @@ Welcome to SuperLeeK's personal workspace hub hosted on [GitHub Pages](https://s
 ## 🌟 Pages & Routes
 
 - **Main Hub**: `https://superleek.github.io/` (`index.html`)
+- **Bookmark Hub**: `https://superleek.github.io/bookmark/` (`bookmark/index.html`)
+- **Game Info Hub**: `https://superleek.github.io/game/` (`game/index.html`)
 - **Settings**: `https://superleek.github.io/settings/` (`settings/index.html`)
-- **Game Center**: `https://superleek.github.io/game/` (`game/index.html`)
 - **RSS Service**: `https://superleek.github.io/rss/` (External Repo Link)
 
-## 🔐 Security & Access Control
+## 🛠️ Features & Improvements
 
-- **Authentication**: Admin password login with SHA-256 Web Crypto API verification.
-- **Access Control Mode**:
-  - 🔓 **Public**: Dashboard and games are accessible to everyone.
-  - 🔒 **Private**: Only authenticated admin can view dashboard content and subpages.
-- **Default Password**: `superleek123` (Can be changed anytime in Settings page).
+- **Fixed Width Clock Badge**: Live KST clock with `tabular-nums` formatting to prevent UI jittering.
+- **Curated Bookmarks**: Categorized web resources, AI tools, and developer documentation.
+- **Game Info Center**: Recommendations, game reviews, and project development logs.
+- **Access Control Mode**: Public vs Private mode protected with Web Crypto SHA-256 Authentication.

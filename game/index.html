@@ -3,14 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SuperLeeK Game Hub - Mini Arcade</title>
-    <meta name="description" content="SuperLeeK Arcade Mini Games Center" />
+    <title>SuperLeeK Hub - Game Info Center</title>
+    <meta
+      name="description"
+      content="SuperLeeK Game Info, Recommendations, and Development Archives"
+    />
 
-    <!-- Google Fonts & FontAwesome -->
+    <!-- Google Fonts: Inter & Outfit -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Press+Start+2P&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Outfit:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
     <link
@@ -23,8 +26,9 @@
         --bg: #0b0f19;
         --card-bg: rgba(17, 24, 39, 0.8);
         --border: rgba(255, 255, 255, 0.1);
-        --accent: #f472b6;
-        --accent-glow: rgba(244, 114, 182, 0.2);
+        --accent-pink: #f472b6;
+        --accent-purple: #818cf8;
+        --accent-cyan: #38bdf8;
         --text: #f3f4f6;
         --text-muted: #9ca3af;
       }
@@ -43,16 +47,22 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        padding: 2rem 1rem;
+        padding: 2rem 1.5rem;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1000px;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
       }
 
       .header-nav {
         width: 100%;
-        max-width: 900px;
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-bottom: 2.5rem;
       }
 
       .back-btn {
@@ -76,114 +86,91 @@
       }
 
       .title {
-        font-family: "Press Start 2P", cursive;
-        font-size: 1.4rem;
-        color: var(--accent);
-        text-shadow: 0 0 12px var(--accent-glow);
+        font-family: "Outfit", sans-serif;
+        font-size: 2rem;
+        font-weight: 800;
+        background: linear-gradient(to right, var(--accent-pink), var(--accent-purple));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
 
-      .game-container {
-        width: 100%;
-        max-width: 900px;
+      .section-header {
+        font-family: "Outfit", sans-serif;
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1.5rem;
+      }
+
+      .game-info-card {
         background: var(--card-bg);
         border: 1px solid var(--border);
-        border-radius: 1.5rem;
-        padding: 2rem;
+        border-radius: 1.2rem;
+        padding: 1.5rem;
         backdrop-filter: blur(12px);
         display: flex;
         flex-direction: column;
-        align-items: center;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        gap: 1rem;
+        transition:
+          transform 0.2s ease,
+          border-color 0.2s ease;
       }
 
-      .arcade-screen {
-        background: #000;
-        border: 2px solid var(--border);
-        border-radius: 1rem;
-        width: 100%;
-        max-width: 480px;
-        height: 480px;
-        position: relative;
-        overflow: hidden;
-        box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.8);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+      .game-info-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(244, 114, 182, 0.4);
       }
 
-      canvas {
-        display: block;
-        background: #090d16;
+      .badge {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.6rem;
+        border-radius: 9999px;
+        font-weight: 600;
+        align-self: flex-start;
+      }
+      .badge-indie {
+        background: rgba(244, 114, 182, 0.15);
+        color: var(--accent-pink);
+        border: 1px solid rgba(244, 114, 182, 0.3);
+      }
+      .badge-dev {
+        background: rgba(56, 189, 248, 0.15);
+        color: var(--accent-cyan);
+        border: 1px solid rgba(56, 189, 248, 0.3);
+      }
+      .badge-classic {
+        background: rgba(251, 191, 36, 0.15);
+        color: #fbbf24;
+        border: 1px solid rgba(251, 191, 36, 0.3);
       }
 
-      .controls-info {
-        margin-top: 1.5rem;
-        color: var(--text-muted);
+      .card-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+
+      .card-desc {
         font-size: 0.9rem;
-        text-align: center;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+
+      .card-meta {
         display: flex;
         gap: 1rem;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      .key-badge {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid var(--border);
-        padding: 0.2rem 0.6rem;
-        border-radius: 0.4rem;
-        font-family: monospace;
-        color: var(--text);
-      }
-
-      .score-board {
-        display: flex;
-        justify-content: space-between;
-        width: 100%;
-        max-width: 480px;
-        margin-bottom: 1rem;
-        font-family: "Press Start 2P", cursive;
-        font-size: 0.9rem;
-      }
-
-      .score-value {
-        color: #38bdf8;
-      }
-      .high-score {
-        color: #34d399;
-      }
-
-      .overlay-start {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(11, 15, 25, 0.85);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 1.2rem;
-        backdrop-filter: blur(4px);
-      }
-
-      .start-btn {
-        font-family: "Press Start 2P", cursive;
-        padding: 1rem 1.5rem;
-        font-size: 0.9rem;
-        background: var(--accent);
-        color: #000;
-        border: none;
-        border-radius: 0.5rem;
-        cursor: pointer;
-        box-shadow: 0 0 20px var(--accent-glow);
-        transition: transform 0.2s ease;
-      }
-
-      .start-btn:hover {
-        transform: scale(1.05);
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-top: auto;
+        border-top: 1px solid var(--border);
+        padding-top: 0.8rem;
       }
 
       .private-guard-card {
@@ -200,62 +187,97 @@
     </style>
   </head>
   <body>
-    <div class="header-nav">
-      <a href="../" class="back-btn">
-        <i class="fa-solid fa-arrow-left"></i> 대시보드로 돌아가기
-      </a>
-      <h1 class="title">ARCADE HUB</h1>
-    </div>
-
-    <div id="gameContent" class="game-container">
-      <div class="score-board">
-        <div>SCORE: <span id="score" class="score-value">0</span></div>
-        <div>HIGH: <span id="highScore" class="high-score">0</span></div>
+    <div class="container">
+      <div class="header-nav">
+        <a href="../" class="back-btn">
+          <i class="fa-solid fa-arrow-left"></i> 대시보드로 돌아가기
+        </a>
+        <h1 class="title">Game Info Hub</h1>
       </div>
 
-      <div class="arcade-screen">
-        <canvas id="gameCanvas" width="400" height="400"></canvas>
-        <div id="overlay" class="overlay-start">
-          <h2
-            style="
-              font-family: &quot;Press Start 2P&quot;, cursive;
-              font-size: 1.1rem;
-              color: #fff;
-              text-align: center;
-            "
-          >
-            RETRO SNAKE
-          </h2>
-          <button id="startBtn" class="start-btn">PRESS TO PLAY</button>
-        </div>
-      </div>
-
-      <div class="controls-info">
+      <!-- Authenticated / Public Game Info View -->
+      <div id="gameContent" class="container" style="padding: 0">
+        <!-- Section 1: Featured & Recommendations -->
         <div>
-          조작키: <span class="key-badge">▲</span> <span class="key-badge">▼</span>
-          <span class="key-badge">◄</span> <span class="key-badge">►</span> 방향키로 이동
+          <h2 class="section-header">
+            <i class="fa-solid fa-fire" style="color: var(--accent-pink)"></i>
+            추천 게임 & 프로젝트 정보
+          </h2>
+
+          <div class="grid">
+            <!-- Game Info Item 1 -->
+            <div class="game-info-card">
+              <span class="badge badge-indie">인디 게임 리포트</span>
+              <h3 class="card-title">Hades II & Roguelike World</h3>
+              <p class="card-desc">
+                독창적인 아트 스타일과 몰입감 높은 전투 시스템이 조화된 로그라이크 명작 게임 분석
+                정보입니다.
+              </p>
+              <div class="card-meta">
+                <span><i class="fa-solid fa-tag"></i> Roguelike</span>
+                <span><i class="fa-solid fa-star"></i> 4.9/5.0</span>
+              </div>
+            </div>
+
+            <!-- Game Info Item 2 -->
+            <div class="game-info-card">
+              <span class="badge badge-dev">개인 개발 게임 노트</span>
+              <h3 class="card-title">Project Cyber Runner</h3>
+              <p class="card-desc">
+                사이버펑크 세계관 기반의 2D 사이드스크롤 액션 게임 개발 로드맵 및 기획 아카이브
+                노트입니다.
+              </p>
+              <div class="card-meta">
+                <span><i class="fa-solid fa-code"></i> Unity / WebGL</span>
+                <span><i class="fa-solid fa-clock"></i> 개발 진행 중</span>
+              </div>
+            </div>
+
+            <!-- Game Info Item 3 -->
+            <div class="game-info-card">
+              <span class="badge badge-classic">레트로 명작</span>
+              <h3 class="card-title">Retro Arcade History</h3>
+              <p class="card-desc">
+                Classic 8-bit & 16-bit 아케이드 게임의 역사와 게임 디자인 메커니즘을 분석한
+                아카이브입니다.
+              </p>
+              <div class="card-meta">
+                <span><i class="fa-solid fa-gamepad"></i> Arcade</span>
+                <span><i class="fa-solid fa-book"></i> Archive</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Private Locked Guard View -->
-    <div
-      id="privateGuardView"
-      class="private-guard-card"
-      style="display: none; max-width: 600px; width: 100%"
-    >
-      <i class="fa-solid fa-lock" style="font-size: 3rem; color: var(--accent)"></i>
-      <div>
-        <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem">비공개 게임 센터</h2>
-        <p style="color: var(--text-muted); font-size: 0.9rem">
-          현재 비공개(Private) 모드 상태입니다. 이용을 위해 먼저 대시보드에서 로그인해주세요.
-        </p>
+      <!-- Private Locked Guard View -->
+      <div id="privateGuardView" class="private-guard-card" style="display: none; width: 100%">
+        <i class="fa-solid fa-lock" style="font-size: 3rem; color: var(--accent-pink)"></i>
+        <div>
+          <h2 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem">
+            비공개 게임 정보 허브
+          </h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem">
+            현재 비공개(Private) 모드 상태입니다. 이용을 위해 먼저 대시보드에서 로그인해주세요.
+          </p>
+        </div>
+        <a
+          href="../"
+          class="back-btn"
+          style="
+            text-decoration: none;
+            color: #fff;
+            background: rgba(244, 114, 182, 0.2);
+            border-color: rgba(244, 114, 182, 0.4);
+          "
+        >
+          대시보드로 이동
+        </a>
       </div>
-      <a href="../" class="start-btn" style="text-decoration: none"> 대시보드로 이동 </a>
     </div>
 
     <script type="module">
-      import { auth } from "../js/auth.js?t=1788137888";
+      import { auth } from "../js/auth.js?t=1788138378";
 
       const gameContent = document.getElementById("gameContent");
       const privateGuardView = document.getElementById("privateGuardView");
@@ -264,162 +286,6 @@
         gameContent.style.display = "none";
         privateGuardView.style.display = "flex";
       });
-    </script>
-
-    <script>
-      const canvas = document.getElementById("gameCanvas");
-      const ctx = canvas.getContext("2d");
-      const overlay = document.getElementById("overlay");
-      const startBtn = document.getElementById("startBtn");
-      const scoreEl = document.getElementById("score");
-      const highScoreEl = document.getElementById("highScore");
-
-      const grid = 20;
-      const tileCount = 20;
-
-      let snake = [];
-      let food = { x: 0, y: 0 };
-      let dx = grid;
-      let dy = 0;
-      let score = 0;
-      let highScore = localStorage.getItem("snake_high_score") || 0;
-      let gameInterval = null;
-      let isRunning = false;
-
-      highScoreEl.textContent = highScore;
-
-      function resetGame() {
-        snake = [
-          { x: 160, y: 200 },
-          { x: 140, y: 200 },
-          { x: 120, y: 200 },
-        ];
-        score = 0;
-        dx = grid;
-        dy = 0;
-        scoreEl.textContent = score;
-        spawnFood();
-      }
-
-      function spawnFood() {
-        food.x = Math.floor(Math.random() * tileCount) * grid;
-        food.y = Math.floor(Math.random() * tileCount) * grid;
-      }
-
-      function draw() {
-        ctx.fillStyle = "#090d16";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        ctx.strokeStyle = "rgba(255, 255, 255, 0.03)";
-        for (let i = 0; i < canvas.width; i += grid) {
-          ctx.beginPath();
-          ctx.moveTo(i, 0);
-          ctx.lineTo(i, canvas.height);
-          ctx.stroke();
-          ctx.beginPath();
-          ctx.moveTo(0, i);
-          ctx.lineTo(canvas.width, i);
-          ctx.stroke();
-        }
-
-        ctx.fillStyle = "#f472b6";
-        ctx.shadowColor = "#f472b6";
-        ctx.shadowBlur = 10;
-        ctx.beginPath();
-        ctx.arc(food.x + grid / 2, food.y + grid / 2, grid / 2 - 2, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.shadowBlur = 0;
-
-        snake.forEach((part, index) => {
-          ctx.fillStyle = index === 0 ? "#38bdf8" : "#818cf8";
-          ctx.fillRect(part.x + 1, part.y + 1, grid - 2, grid - 2);
-        });
-      }
-
-      function update() {
-        const head = { x: snake[0].x + dx, y: snake[0].y + dy };
-
-        if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height) {
-          gameOver();
-          return;
-        }
-
-        for (let i = 0; i < snake.length; i++) {
-          if (head.x === snake[i].x && head.y === snake[i].y) {
-            gameOver();
-            return;
-          }
-        }
-
-        snake.unshift(head);
-
-        if (head.x === food.x && head.y === food.y) {
-          score += 10;
-          scoreEl.textContent = score;
-          if (score > highScore) {
-            highScore = score;
-            highScoreEl.textContent = highScore;
-            localStorage.setItem("snake_high_score", highScore);
-          }
-          spawnFood();
-        } else {
-          snake.pop();
-        }
-
-        draw();
-      }
-
-      function gameOver() {
-        clearInterval(gameInterval);
-        isRunning = false;
-        overlay.style.display = "flex";
-        overlay.querySelector("h2").textContent = "GAME OVER";
-        startBtn.textContent = "RETRY";
-      }
-
-      function startGame() {
-        resetGame();
-        overlay.style.display = "none";
-        isRunning = true;
-        draw();
-        if (gameInterval) clearInterval(gameInterval);
-        gameInterval = setInterval(update, 120);
-      }
-
-      startBtn.addEventListener("click", startGame);
-
-      window.addEventListener("keydown", e => {
-        if (!isRunning) return;
-
-        switch (e.key) {
-          case "ArrowUp":
-            if (dy === 0) {
-              dx = 0;
-              dy = -grid;
-            }
-            break;
-          case "ArrowDown":
-            if (dy === 0) {
-              dx = 0;
-              dy = grid;
-            }
-            break;
-          case "ArrowLeft":
-            if (dx === 0) {
-              dx = -grid;
-              dy = 0;
-            }
-            break;
-          case "ArrowRight":
-            if (dx === 0) {
-              dx = 0;
-              dy = grid;
-            }
-            break;
-        }
-      });
-
-      draw();
     </script>
   </body>
 </html>
