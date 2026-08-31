@@ -1,0 +1,39 @@
+name: Build and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Inject Password Secret Hash
+        env:
+          DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
+        run: |
+          if [ -n "$DASHBOARD_PASSWORD" ]; then
+            HASH=$(echo -n "$DASHBOARD_PASSWORD" | sha256sum | awk '{print $1}')
+            echo "Injecting password hash..."
+            echo "window.DASHBOARD_PASSWORD_HASH = '$HASH';" > js/config.js
+          else
+            echo "No DASHBOARD_PASSWORD secret found."
+          fi
+
+      - name: Deploy to GitHub Pages Branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./

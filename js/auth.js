@@ -11,20 +11,20 @@ export async function hashPassword(password) {
   return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
-// Correct SHA-256 hash of 'superleek123'
-const DEFAULT_PASSWORD_HASH = "9ffcc8a979c981e0e67a9db05b26c5e839aae63c6138b2a108275c6fb2aaef34";
-const OLD_INVALID_HASH = "2e604fdf80907adceca1faec6291a2eb3511eb080b0fb6c4ea5eef72ed58ee58";
-
 export class AuthManager {
   constructor() {
     this.init();
   }
 
-  init() {
-    const currentStored = localStorage.getItem("auth_password_hash");
-    if (!currentStored || currentStored === OLD_INVALID_HASH) {
-      localStorage.setItem("auth_password_hash", DEFAULT_PASSWORD_HASH);
+  // Get active expected password hash (Prioritizes secret injected via GitHub Actions)
+  getExpectedHash() {
+    if (window.DASHBOARD_PASSWORD_HASH && window.DASHBOARD_PASSWORD_HASH.trim() !== "") {
+      return window.DASHBOARD_PASSWORD_HASH.trim();
     }
+    return localStorage.getItem("auth_password_hash") || "";
+  }
+
+  init() {
     if (!localStorage.getItem("access_mode")) {
       localStorage.setItem("access_mode", "public"); // Default: 'public'
     }
@@ -51,10 +51,16 @@ export class AuthManager {
 
   // Login attempt with raw password
   async login(password) {
-    const inputHash = await hashPassword(password);
-    const storedHash = localStorage.getItem("auth_password_hash") || DEFAULT_PASSWORD_HASH;
+    const expectedHash = this.getExpectedHash();
+    if (!expectedHash) {
+      return {
+        success: false,
+        message: "설정된 관리자 비밀번호가 없습니다. GitHub Secret을 확인하세요.",
+      };
+    }
 
-    if (inputHash === storedHash) {
+    const inputHash = await hashPassword(password);
+    if (inputHash === expectedHash) {
       localStorage.setItem("auth_session_active", "true");
       return { success: true };
     }
@@ -68,10 +74,10 @@ export class AuthManager {
 
   // Change Password
   async changePassword(currentPassword, newPassword) {
+    const expectedHash = this.getExpectedHash();
     const currentHash = await hashPassword(currentPassword);
-    const storedHash = localStorage.getItem("auth_password_hash") || DEFAULT_PASSWORD_HASH;
 
-    if (currentHash !== storedHash) {
+    if (currentHash !== expectedHash) {
       return { success: false, message: "현재 비밀번호가 일치하지 않습니다." };
     }
 
@@ -81,6 +87,7 @@ export class AuthManager {
 
     const newHash = await hashPassword(newPassword);
     localStorage.setItem("auth_password_hash", newHash);
+    window.DASHBOARD_PASSWORD_HASH = newHash; // Update runtime in-memory hash
     return { success: true, message: "비밀번호가 성공적으로 변경되었습니다." };
   }
 
