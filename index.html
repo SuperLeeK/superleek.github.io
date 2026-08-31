@@ -30,7 +30,8 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
 
-    <script src="./js/config.js"></script>
+    <!-- Config & Cache Busting -->
+    <script src="./js/config.js?t=1788137888"></script>
 
     <style>
       :root {
@@ -684,7 +685,7 @@
     </div>
 
     <script type="module">
-      import { auth } from "./js/auth.js";
+      import { auth } from "./js/auth.js?t=1788137888";
 
       // Live Clock Functionality
       function updateClock() {
