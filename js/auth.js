@@ -11,9 +11,9 @@ export async function hashPassword(password) {
   return hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
 }
 
-// Default Password Hash (Default: 'superleek123')
-// SHA-256 of 'superleek123': 2e604fdf80907adceca1faec6291a2eb3511eb080b0fb6c4ea5eef72ed58ee58
-const DEFAULT_PASSWORD_HASH = "2e604fdf80907adceca1faec6291a2eb3511eb080b0fb6c4ea5eef72ed58ee58";
+// Correct SHA-256 hash of 'superleek123'
+const DEFAULT_PASSWORD_HASH = "9ffcc8a979c981e0e67a9db05b26c5e839aae63c6138b2a108275c6fb2aaef34";
+const OLD_INVALID_HASH = "2e604fdf80907adceca1faec6291a2eb3511eb080b0fb6c4ea5eef72ed58ee58";
 
 export class AuthManager {
   constructor() {
@@ -21,7 +21,8 @@ export class AuthManager {
   }
 
   init() {
-    if (!localStorage.getItem("auth_password_hash")) {
+    const currentStored = localStorage.getItem("auth_password_hash");
+    if (!currentStored || currentStored === OLD_INVALID_HASH) {
       localStorage.setItem("auth_password_hash", DEFAULT_PASSWORD_HASH);
     }
     if (!localStorage.getItem("access_mode")) {
